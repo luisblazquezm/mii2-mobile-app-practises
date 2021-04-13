@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Suma2017</string>
+    <string name="main_view_title_text_view_text">Suma2017</string>
+    <string name="main_view_first_operand_text_view_text">Primer Sumando</string>
+    <string name="main_view_second_operand_text_view_text">Segundo Sumando</string>
+    <string name="main_view_add_button_text">SUMAR</string>
+    <string name="main_view_result_text_view_text">Resultado</string>
+</resources>

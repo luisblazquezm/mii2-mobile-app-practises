@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">ColorEtiqueta</string>
+    <string name="main_view_message_text_view_text">MENSAJE</string>
+    <string name="main_view_background_color_button_text">Color de Fondo</string>
+    <string name="main_view_message_color_button_text">Color de Mensaje</string>
+    <string name="main_view_red_color_button_text">Rojo</string>
+    <string name="main_view_blue_color_button_text">Azul</string>
+    <string name="main_view_green_color_button_text">Verde</string>
+    <string name="main_view_visible_checkbox_text">Visible</string>
+    <string name="main_view_execute_button_text">EJECUTAR</string>
+</resources>
