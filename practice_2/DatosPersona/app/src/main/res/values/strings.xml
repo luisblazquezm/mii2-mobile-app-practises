@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">DatosPersona</string>
+    <string name="title_name">LISTA</string>
+    <string name="main_view_add_person_button_text">Añadir</string>
+    <string name="main_view_exit_button_text">Salir</string>
+
+    <string name="activity_lanza_actividad_view_name_text">Nombre</string>
+    <string name="activity_lanza_actividad_view_surenames_text">Apellidos</string>
+    <string name="activity_lanza_actividad_view_age_text">Edad</string>
+    <string name="activity_lanza_actividad_view_phone_text">Teléfono</string>
+    <string name="activity_lanza_actividad_view_driving_license_text">Carnet de conducir</string>
+    <string name="activity_lanza_actividad_view_english_level_text">Nivel de inglés</string>
+    <string name="activity_lanza_actividad_view_low_level_text">Bajo</string>
+    <string name="activity_lanza_actividad_view_medium_level_text">Medio</string>
+    <string name="activity_lanza_actividad_view_high_level_text">Alto</string>
+    <string name="activity_lanza_actividad_view_registry_date_text">Fecha de alta</string>
+    <string name="activity_lanza_actividad_view_change_date_button_text">CAMBIAR FECHA</string>
+    <string name="activity_lanza_actividad_view_save_button_text">GUARDAR</string>
+    <string name="activity_lanza_actividad_view_reset_button_text">REINICIAR</string>
+    <string name="activity_lanza_actividad_view_cancel_button_text">CANCELAR</string>
+</resources>
