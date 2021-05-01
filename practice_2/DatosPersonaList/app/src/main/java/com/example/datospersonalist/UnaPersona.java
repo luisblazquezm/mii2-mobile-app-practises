@@ -87,4 +87,5 @@ public class UnaPersona implements Serializable {
     public void setDate(String date) {
         this.date = date;
     }
+
 }

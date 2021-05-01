@@ -19,6 +19,12 @@ import java.util.Calendar;
 public class LanzaActividad extends AppCompatActivity {
 
     // ATTRIBUTES
+    private String name;
+    private String surenames;
+    private String age;
+    private String phone;
+    private boolean hasDrivingLicense;
+    private int englishLevelID;
     private String date;
 
     // UI XML ELEMENTS
@@ -33,6 +39,18 @@ public class LanzaActividad extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // recovering the instance state
+        if (savedInstanceState != null) {
+            this.name = savedInstanceState.getString(CONSTANTS.NAME_STATE_KEY);
+            this.surenames = savedInstanceState.getString(CONSTANTS.SURENAMES_STATE_KEY);
+            this.age = savedInstanceState.getString(CONSTANTS.AGE_STATE_KEY);
+            this.phone = savedInstanceState.getString(CONSTANTS.PHONE_STATE_KEY);
+            this.hasDrivingLicense = savedInstanceState.getBoolean(CONSTANTS.DRIVING_LICENSE_STATE_KEY);
+            this.englishLevelID = savedInstanceState.getInt(CONSTANTS.ENGLISH_LEVEL_STATE_KEY);
+            this.date = savedInstanceState.getString(CONSTANTS.DATE_STATE_KEY);
+        }
+
         setContentView(R.layout.activity_lanza_actividad2);
 
         // Initialize person attributes
@@ -49,6 +67,36 @@ public class LanzaActividad extends AppCompatActivity {
 
         // Set current date in initialization
         this.dateTextView.setText(this.getCurrenDate());
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        this.nameEditText.setText(savedInstanceState.getString(CONSTANTS.NAME_STATE_KEY));
+        this.surenamesEditText.setText(savedInstanceState.getString(CONSTANTS.SURENAMES_STATE_KEY));
+        this.ageEditText.setText(savedInstanceState.getString(CONSTANTS.AGE_STATE_KEY));
+        this.phoneEditText.setText(savedInstanceState.getString(CONSTANTS.PHONE_STATE_KEY));
+        this.drivingLicenseCheckbox.setChecked(savedInstanceState.getBoolean(CONSTANTS.DRIVING_LICENSE_STATE_KEY));
+        this.englishLevelRadioGroup.check(savedInstanceState.getInt(CONSTANTS.ENGLISH_LEVEL_STATE_KEY));
+        this.dateTextView.setText(savedInstanceState.getString(CONSTANTS.DATE_STATE_KEY));
+    }
+
+    // invoked when the activity may be temporarily destroyed, save the instance state here
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString(CONSTANTS.NAME_STATE_KEY, this.nameEditText.getText().toString());
+        outState.putString(CONSTANTS.SURENAMES_STATE_KEY, this.surenamesEditText.getText().toString());
+        outState.putString(CONSTANTS.AGE_STATE_KEY, this.ageEditText.getText().toString());
+        outState.putString(CONSTANTS.PHONE_STATE_KEY, this.phoneEditText.getText().toString());
+        outState.putBoolean(CONSTANTS.DRIVING_LICENSE_STATE_KEY, this.drivingLicenseCheckbox.isChecked());
+
+        int selectedEnglishLevelButtonId = this.englishLevelRadioGroup.getCheckedRadioButtonId();
+        RadioButton selectedEnglishLevelRadioButton = (RadioButton) findViewById(selectedEnglishLevelButtonId);
+        outState.putString(CONSTANTS.ENGLISH_LEVEL_STATE_KEY, selectedEnglishLevelRadioButton.getText().toString());
+
+        outState.putString(CONSTANTS.DATE_STATE_KEY, this.dateTextView.getText().toString());
+
+        // call superclass to save any view hierarchy
+        super.onSaveInstanceState(outState);
     }
 
     private String getCurrenDate() {
@@ -85,33 +133,33 @@ public class LanzaActividad extends AppCompatActivity {
     public void savePerson(View view) {
 
         // ----------- NAME
-        String name = this.nameEditText.getText().toString();
+        this.name = this.nameEditText.getText().toString();
 
         // ----------- SURENAMES
-        String surenames = this.surenamesEditText.getText().toString();
-        if (name.isEmpty() && surenames.isEmpty()) {
-            name = "desconocido";
+        this.surenames = this.surenamesEditText.getText().toString();
+        if (this.name.isEmpty() && surenames.isEmpty()) {
+            this.name = CONSTANTS.UNKNOWN_DEFAULT_VALUE;
             surenames = "";
         }
 
         // ----------- AGE
-        String age = this.ageEditText.getText().toString();
+        this.age = this.ageEditText.getText().toString();
         if (age.isEmpty()) {
-            age = "desconocido";
+            this.age = CONSTANTS.UNKNOWN_DEFAULT_VALUE;
         }
 
         // ----------- PHONE
-        String phone = this.phoneEditText.getText().toString();
-        if (phone.isEmpty()) {
-            phone = "desconocido";
+        this.phone = this.phoneEditText.getText().toString();
+        if (this.phone.isEmpty()) {
+            this.phone = CONSTANTS.UNKNOWN_DEFAULT_VALUE;
         }
 
         // ----------- DRIVING LICENSE
-        boolean hasDrivingLicense = this.drivingLicenseCheckbox.isChecked();
+        this.hasDrivingLicense = this.drivingLicenseCheckbox.isChecked();
 
         // ----------- ENGLISH LEVEL
-        int selectedEnglishLevelButtonId = this.englishLevelRadioGroup.getCheckedRadioButtonId();
-        RadioButton selectedEnglishLevelRadioButton = (RadioButton) findViewById(selectedEnglishLevelButtonId);
+        this.englishLevelID = this.englishLevelRadioGroup.getCheckedRadioButtonId();
+        RadioButton selectedEnglishLevelRadioButton = (RadioButton) findViewById(this.englishLevelID);
         String englishLevel = selectedEnglishLevelRadioButton.getText().toString();
 
         // DATE is set on 'setDate' function or initialization
@@ -119,11 +167,11 @@ public class LanzaActividad extends AppCompatActivity {
         // Pass data from activity to main activity with intent
         Intent returnIntent = new Intent(this, MainActivity.class);
         returnIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // clears the activity stack so that the user cannot go back to the previous activity with the BACK button
-        returnIntent.putExtra(CONSTANTS.INTENT_NAME_KEY, name);
-        returnIntent.putExtra(CONSTANTS.INTENT_SURENAMES_KEY, surenames);
-        returnIntent.putExtra(CONSTANTS.INTENT_AGE_KEY, age);
-        returnIntent.putExtra(CONSTANTS.INTENT_PHONE_KEY, phone);
-        returnIntent.putExtra(CONSTANTS.INTENT_DRIVING_LICENSE_KEY, hasDrivingLicense);
+        returnIntent.putExtra(CONSTANTS.INTENT_NAME_KEY, this.name);
+        returnIntent.putExtra(CONSTANTS.INTENT_SURENAMES_KEY, this.surenames);
+        returnIntent.putExtra(CONSTANTS.INTENT_AGE_KEY, this.age);
+        returnIntent.putExtra(CONSTANTS.INTENT_PHONE_KEY, this.phone);
+        returnIntent.putExtra(CONSTANTS.INTENT_DRIVING_LICENSE_KEY, this.hasDrivingLicense);
         returnIntent.putExtra(CONSTANTS.INTENT_ENGLISH_LEVEL_KEY, englishLevel);
         returnIntent.putExtra(CONSTANTS.INTENT_DATE_KEY, this.date);
         setResult(Activity.RESULT_OK, returnIntent); // set ok flag in result

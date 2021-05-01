@@ -18,11 +18,34 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // recovering the instance state
+        if (savedInstanceState != null) {
+            this.peopleList = savedInstanceState.getString(CONSTANTS.PEOPLE_LIST_STATE_KEY);
+        }
+
         setContentView(R.layout.activity_main);
 
         // Capture the layout's TextView and set the string as its text
         this.textView = (TextView) findViewById(R.id.peopleListTextView);
-        textView.setText(this.peopleList);
+    }
+
+    // This callback is called only when there is a saved instance that is previously saved by using
+    // onSaveInstanceState(). We restore some state in onCreate(), while we can optionally restore
+    // other state here, possibly usable after onStart() has completed.
+    // The savedInstanceState Bundle is same as the one used in onCreate().
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        this.textView.setText(savedInstanceState.getString(CONSTANTS.PEOPLE_LIST_STATE_KEY));
+    }
+
+    // invoked when the activity may be temporarily destroyed, save the instance state here
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString(CONSTANTS.PEOPLE_LIST_STATE_KEY, this.textView.getText().toString());
+
+        // call superclass to save any view hierarchy
+        super.onSaveInstanceState(outState);
     }
 
     @Override

@@ -1,11 +1,26 @@
 package com.example.datospersona;
 
 public interface CONSTANTS {
-    public final static String INTENT_NAME_KEY = "PERSON_NAME";
-    public final static String INTENT_SURENAMES_KEY = "PERSON_SURENAMES";
-    public final static String INTENT_AGE_KEY = "PERSON_AGE";
-    public final static String INTENT_PHONE_KEY = "PERSON_PHONE";
-    public final static String INTENT_DRIVING_LICENSE_KEY = "PERSON_DRIVING_LICENSE";
-    public final static String INTENT_ENGLISH_LEVEL_KEY = "PERSON_ENGLISH_LEVEL";
-    public final static String INTENT_DATE_KEY = "PERSON_DATE";
+
+    // Intents
+    String INTENT_NAME_KEY = "PERSON_NAME";
+    String INTENT_SURENAMES_KEY = "PERSON_SURENAMES";
+    String INTENT_AGE_KEY = "PERSON_AGE";
+    String INTENT_PHONE_KEY = "PERSON_PHONE";
+    String INTENT_DRIVING_LICENSE_KEY = "PERSON_DRIVING_LICENSE";
+    String INTENT_ENGLISH_LEVEL_KEY = "PERSON_ENGLISH_LEVEL";
+    String INTENT_DATE_KEY = "PERSON_DATE";
+
+    // States
+    String PEOPLE_LIST_STATE_KEY = "PEOPLE_LIST_STATE";
+    String NAME_STATE_KEY = "NAME_STATE";
+    String SURENAMES_STATE_KEY = "SURENAMES_STATE";
+    String AGE_STATE_KEY = "AGE_STATE";
+    String PHONE_STATE_KEY = "PHONE_STATE";
+    String DRIVING_LICENSE_STATE_KEY = "DRIVING_LICENSE_STATE";
+    String ENGLISH_LEVEL_STATE_KEY = "ENGLISH_LEVEL_STATE";
+    String DATE_STATE_KEY = "DATE_STATE";
+
+    // Deafult
+    String UNKNOWN_DEFAULT_VALUE ="desconocido";
 }

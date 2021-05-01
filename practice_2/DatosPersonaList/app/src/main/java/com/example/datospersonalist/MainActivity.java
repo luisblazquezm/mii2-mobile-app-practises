@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -25,6 +26,12 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialice list
         this.fillListInInitialization();
+
+        // recovering the instance state
+        if (savedInstanceState != null) {
+            Parcelable state = savedInstanceState.getParcelable(CONSTANTS.PEOPLE_LIST_STATE_KEY);
+            listView.onRestoreInstanceState(state);
+        }
 
         // Capture the layout's TextView and set the string as its text
         this.listView = (ListView) findViewById(R.id.peopleListView);
@@ -48,6 +55,25 @@ public class MainActivity extends AppCompatActivity {
         this.peopleList.add(new UnaPersona("Marcos", "Rodriguez Pérez", "45",
                 "999999999", false,
                 "BAJO", "13/04/2021"));
+    }
+
+    // This callback is called only when there is a saved instance that is previously saved by using
+    // onSaveInstanceState(). We restore some state in onCreate(), while we can optionally restore
+    // other state here, possibly usable after onStart() has completed.
+    // The savedInstanceState Bundle is same as the one used in onCreate().
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        Parcelable state = (Parcelable) savedInstanceState.getSerializable(CONSTANTS.PEOPLE_LIST_STATE_KEY);
+        listView.onRestoreInstanceState(state);
+    }
+
+    // invoked when the activity may be temporarily destroyed, save the instance state here
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable(CONSTANTS.PEOPLE_LIST_STATE_KEY, this.listView.onSaveInstanceState());
+
+        // call superclass to save any view hierarchy
+        super.onSaveInstanceState(outState);
     }
 
     @Override

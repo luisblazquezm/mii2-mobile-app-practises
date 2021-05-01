@@ -1,6 +1,8 @@
 package com.example.datospersonalist;
 
 public interface CONSTANTS {
+
+    // Intents
     // ---------------- INTENT KEYS
     String INTENT_PERSON_OBJECT_KEY = "PERSON_OBJECT";
     String INTENT_ELEMENT_POSITION_TO_MODIFY_KEY = "PERSON_POSITION_ITEM_LISTVIEW";
@@ -11,5 +13,18 @@ public interface CONSTANTS {
     // ----------------- INTENT REQUEST CODES
     int LAUNCH_SECOND_ACTIVITY_TO_ADD = 1;
     int LAUNCH_SECOND_ACTIVITY_TO_MODIFY = 2;
+
+    // States
+    String PEOPLE_LIST_STATE_KEY = "PEOPLE_LIST_STATE";
+    String NAME_STATE_KEY = "NAME_STATE";
+    String SURENAMES_STATE_KEY = "SURENAMES_STATE";
+    String AGE_STATE_KEY = "AGE_STATE";
+    String PHONE_STATE_KEY = "PHONE_STATE";
+    String DRIVING_LICENSE_STATE_KEY = "DRIVING_LICENSE_STATE";
+    String ENGLISH_LEVEL_STATE_KEY = "ENGLISH_LEVEL_STATE";
+    String DATE_STATE_KEY = "DATE_STATE";
+
+    // Deafult
+    String UNKNOWN_DEFAULT_VALUE ="desconocido";
 }
 
