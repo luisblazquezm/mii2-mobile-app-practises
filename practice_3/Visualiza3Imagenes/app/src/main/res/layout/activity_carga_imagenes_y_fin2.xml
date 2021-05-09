@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:gravity="center_vertical"
+    android:padding="45dp"
+    tools:context=".LoadImagesActivity">
+
+    <TextView
+        android:id="@+id/loadImageMessageTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:gravity="center"
+        android:text="@string/load_img_view_load_label_text" />
+
+    <TextView
+        android:id="@+id/endMessageTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/load_img_view_end_label_text"
+        android:textSize="30dp" />
+
+    <ProgressBar
+        android:id="@+id/loadImageProgressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="211dp" />
+
+    <ImageView
+        android:id="@+id/imageViewCatDogAndLion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:src="@drawable/perro" />
+
+</LinearLayout>
