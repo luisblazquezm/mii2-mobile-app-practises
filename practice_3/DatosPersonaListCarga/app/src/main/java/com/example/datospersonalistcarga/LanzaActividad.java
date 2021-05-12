@@ -16,11 +16,11 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 
-public class LanzaActividad extends AppCompatActivity {
+public class LanzaActividad extends Activity {
 
     // ATTRIBUTES
     private UnaPersona newPerson;
-    private String date;
+    private String dateString;
     private int requestCode;
 
     // UI XML ELEMENTS
@@ -48,7 +48,7 @@ public class LanzaActividad extends AppCompatActivity {
             String radioText = rb.getText().toString();
             this.newPerson.setEnglishLevel(radioText);
 
-            this.newPerson.setDate(savedInstanceState.getString(CONSTANTS.DATE_STATE_KEY));
+            this.newPerson.setDate(this.newPerson.parseFromStringToDate(savedInstanceState.getString(CONSTANTS.DATE_STATE_KEY)));
         }
 
         setContentView(R.layout.activity_lanza_actividad);
@@ -71,8 +71,8 @@ public class LanzaActividad extends AppCompatActivity {
                 UnaPersona personToModify = (UnaPersona) getIntent().getSerializableExtra(CONSTANTS.INTENT_ELEMENT_DATA_TO_MODIFY_KEY);
                 this.setValuesIntoFields(personToModify); // set values to modify
             } else if (CONSTANTS.LAUNCH_SECOND_ACTIVITY_TO_ADD == this.requestCode) { // To add new data
-                this.date = this.getCurrenDate(); // initialize person attributes
-                this.dateTextView.setText(this.date); // set current date in initialization
+                this.dateString = this.getCurrenDate(); // initialize person attributes
+                this.dateTextView.setText(this.dateString); // set current date in initialization
             }
         }
     }
@@ -137,7 +137,7 @@ public class LanzaActividad extends AppCompatActivity {
             }
         }
         // Set current date
-        this.dateTextView.setText(p.getDate());
+        this.dateTextView.setText(p.getStringDate());
     }
 
     private String getCurrenDate() {
@@ -162,8 +162,8 @@ public class LanzaActividad extends AppCompatActivity {
         DatePickerDialog dpd = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthofyear, int dayofmonth) {
-                date = dayofmonth + "/" + monthofyear + "/" + year; // change attribute of a new person
-                dateTextView.setText(date); // set in the text the new date
+                dateString = dayofmonth + "/" + monthofyear + "/" + year; // change attribute of a new person
+                dateTextView.setText(dateString); // set in the text the new date
             }
         }, year, month, day);
 
@@ -211,8 +211,8 @@ public class LanzaActividad extends AppCompatActivity {
         String englishLevel = selectedEnglishLevelRadioButton.getText().toString();
         this.newPerson.setEnglishLevel(englishLevel);
 
-        // ----------- ENGLISH LEVEL
-        this.newPerson.setDate(this.date);
+        // ----------- DATE LEVEL
+        this.newPerson.setDate(this.newPerson.parseFromStringToDate(this.dateString));
 
         // Pass data from activity to main activity with intent
         Intent returnIntent = new Intent(this, MainActivity.class);

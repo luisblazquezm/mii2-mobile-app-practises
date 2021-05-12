@@ -47,11 +47,17 @@ public class AdapterPerson extends ArrayAdapter<UnaPersona> {
 
         // Lookup view for data population
         TextView tvName = (TextView) rowView.findViewById(R.id.listItemName);
-        TextView tvHome = (TextView) rowView.findViewById(R.id.listItemPhone);
+        TextView tvAge = (TextView) rowView.findViewById(R.id.listItemAge);
+        TextView tvDrivinLicense = (TextView) rowView.findViewById(R.id.listItemDrivingLicense);
+        TextView tvEnglishLevel = (TextView) rowView.findViewById(R.id.listItemEnglishLevel);
+        TextView tvDate = (TextView) rowView.findViewById(R.id.listItemDate);
 
         // Populate the data into the template view using the data object
         tvName.setText(person.getName() + " " + person.getSurename());
-        tvHome.setText("Teléfono: " + person.getPhone());
+        tvAge.setText(person.getAge());
+        tvDrivinLicense.setText((person.getHasDrivingLicense() ? R.string.pc_yes : R.string.pc_no));
+        tvEnglishLevel.setText(person.getEnglishLevel());
+        tvDate.setText(person.parseFromDateToString(person.getDate()));
 
         // Return the completed view to render on screen
         return rowView;

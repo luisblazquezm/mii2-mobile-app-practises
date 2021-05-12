@@ -3,6 +3,8 @@ package com.example.datospersonalistcarga;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -12,6 +14,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.example.datospersonalistcarga.storage.DataStorage;
 
 import org.w3c.dom.Text;
 
@@ -73,15 +77,7 @@ public class MainActivity extends Activity {
             @Override
             public void run() {
                 // Fill peopleList
-                peopleList.add(new UnaPersona("Luis", "Blázquez Miñambres", "23",
-                        "34343434", true,
-                        "ALTO", "23/04/2021"));
-                peopleList.add(new UnaPersona("Manuel", "Pérez Pérez", "53",
-                        "45454545", true,
-                        "MEDIO", "12/04/2021"));
-                peopleList.add(new UnaPersona("Marcos", "Rodriguez Pérez", "45",
-                        "999999999", false,
-                        "BAJO", "13/04/2021"));
+                peopleList.addAll(DataStorage.loadFromStorage());
 
                 // Simulate loading
                 try {
@@ -103,6 +99,7 @@ public class MainActivity extends Activity {
 
                         listView.setAdapter(listViewArrayAdapter); // set adapter
                         listView.setOnItemClickListener(modifyPersonData); // set event when click on element
+                        listView.setOnItemLongClickListener(deletePersonData); // set event when long click on element
                     }
                 });
             }
@@ -186,6 +183,28 @@ public class MainActivity extends Activity {
             intent.putExtra(CONSTANTS.INTENT_ELEMENT_DATA_TO_MODIFY_KEY, (Serializable) MainActivity.this.listViewArrayAdapter.getItem(position));
 
             startActivityForResult(intent, CONSTANTS.LAUNCH_SECOND_ACTIVITY_TO_MODIFY);
+        }
+    };
+
+    private AdapterView.OnItemLongClickListener deletePersonData = new AdapterView.OnItemLongClickListener() {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            UnaPersona personToDelete = MainActivity.this.listViewArrayAdapter.getItem(position);
+
+            // Set dialog alert in case of delete
+            new AlertDialog.Builder(MainActivity.this)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle(getResources().getString(R.string.main_view_delete_dialog_title_text))
+                    .setMessage(getResources().getString(R.string.main_view_delete_dialog_description_text) + ' ' + personToDelete.getName() + ' ' + personToDelete.getSurename() + '?' )
+                    .setPositiveButton(getResources().getString(R.string.pc_yes), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            MainActivity.this.listViewArrayAdapter.remove(personToDelete);
+                        }
+                    })
+                    .setNegativeButton(getResources().getString(R.string.pc_no), null)
+                    .show();
+            return true;
         }
     };
 

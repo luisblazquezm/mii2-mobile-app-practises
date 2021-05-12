@@ -1,6 +1,10 @@
 package com.example.datospersonalistcarga;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class UnaPersona implements Serializable {
 
@@ -10,7 +14,7 @@ public class UnaPersona implements Serializable {
     String phone;
     boolean hasDrivingLicense;
     String englishLevel;
-    String date;
+    Date date;
 
     public UnaPersona() {
         this.name = "";
@@ -19,10 +23,12 @@ public class UnaPersona implements Serializable {
         this.phone = "";
         this.hasDrivingLicense = false;
         this.englishLevel = "";
-        this.date = "";
+        this.date = null;
     }
 
-    public UnaPersona(String name, String surename, String age, String phone, boolean hasDrivingLicense, String englishLevel, String date) {
+    public UnaPersona(String name, String surename,
+                      String age, String phone,
+                      boolean hasDrivingLicense, String englishLevel, Date date) {
         this.name = name;
         this.surename = surename;
         this.age = age;
@@ -30,6 +36,18 @@ public class UnaPersona implements Serializable {
         this.hasDrivingLicense = hasDrivingLicense;
         this.englishLevel = englishLevel;
         this.date = date;
+    }
+
+    public UnaPersona(String name, String surename,
+                      String age, String phone,
+                      boolean hasDrivingLicense, String englishLevel, String date) {
+        this.name = name;
+        this.surename = surename;
+        this.age = age;
+        this.phone = phone;
+        this.hasDrivingLicense = hasDrivingLicense;
+        this.englishLevel = englishLevel;
+        this.date = this.parseFromStringToDate(date);
     }
 
     public String getName() {
@@ -80,12 +98,32 @@ public class UnaPersona implements Serializable {
         this.englishLevel = englishLevel;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
+    public String getStringDate() {
+        return this.parseFromDateToString(date);
+    }
+
+    public String parseFromDateToString(Date d) {
+        String pattern = "dd/MM/yyyy";
+        DateFormat df = new SimpleDateFormat(pattern);
+
+        return df.format(d);
+    }
+
+    public Date parseFromStringToDate(String stringDate) {
+        String pattern = "dd/MM/yyyy";
+        DateFormat df = new SimpleDateFormat(pattern);
+        try {
+            return df.parse(stringDate);
+        } catch (ParseException e) {
+            return null;
+        }
+    }
 }
