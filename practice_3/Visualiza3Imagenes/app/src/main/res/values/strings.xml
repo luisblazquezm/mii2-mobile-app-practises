@@ -2,5 +2,6 @@
     <string name="app_name">Visualiza3Imagenes</string>
     <string name="main_view_start_app_button_text">Iniciar</string>
     <string name="load_img_view_load_label_text">Cargando imágen</string>
+    <string name="load_img_view_end_button_text">Salir</string>
     <string name="load_img_view_end_label_text">Fin</string>
 </resources>

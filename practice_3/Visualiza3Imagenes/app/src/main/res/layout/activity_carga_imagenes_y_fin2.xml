@@ -23,7 +23,16 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/load_img_view_end_label_text"
+        android:visibility="gone"
         android:textSize="30dp" />
+
+    <Button
+        android:id="@+id/endActivityButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:onClick="exitActivity"
+        android:text="@string/load_img_view_end_button_text" />
 
     <ProgressBar
         android:id="@+id/loadImageProgressBarr"
@@ -36,6 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:visibility="gone"
         android:src="@drawable/perro" />
 
 </LinearLayout>
