@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">DatosPersonaListAlmacen</string>
+
+    <string name="main_view_start_app_button_text">Start</string>
+    <string name="main_view_settings_button_text">Settings</string>
+
+    <string name="title_name">LIST</string>
+    <string name="main_view_add_person_button_text">Add</string>
+    <string name="main_view_exit_button_text">Exit</string>
+
+    <string name="main_view_delete_dialog_title_text">Delete user</string>
+    <string name="main_view_delete_dialog_description_text">Do you wish to delete user</string>
+
+    <string name="main_view_empty_list_view_text">Not available</string>
+
+    <string name="pc_yes">YES</string>
+    <string name="pc_no">NO</string>
+
+    <string name="activity_lanza_actividad_view_name_text">Name</string>
+    <string name="activity_lanza_actividad_view_surenames_text">Surenames</string>
+    <string name="activity_lanza_actividad_view_age_text">Age</string>
+    <string name="activity_lanza_actividad_view_phone_text">Phone</string>
+    <string name="activity_lanza_actividad_view_driving_license_text">Driving License</string>
+    <string name="activity_lanza_actividad_view_english_level_text">English Level</string>
+    <string name="activity_lanza_actividad_view_low_level_text">Low</string>
+    <string name="activity_lanza_actividad_view_medium_level_text">Medium</string>
+    <string name="activity_lanza_actividad_view_high_level_text">High</string>
+    <string name="activity_lanza_actividad_view_registry_date_text">Registry date</string>
+    <string name="activity_lanza_actividad_view_change_date_button_text">CHANGE DATE</string>
+    <string name="activity_lanza_actividad_view_save_button_text">SAVE</string>
+    <string name="activity_lanza_actividad_view_reset_button_text">RESET</string>
+    <string name="activity_lanza_actividad_view_cancel_button_text">CANCEL</string>
+
+    <string name="list_view_item_name_text">Name:</string>
+    <string name="list_view_item_age_text">Age:</string>
+    <string name="list_view_item_pc_text">PC:</string>
+    <string name="list_view_item_english_level_text">Level:</string>
+    <string name="list_view_item_date_text">REGISTRY:</string>
+    <string name="main_view_store_person_data_button_text">Save</string>
+    <string name="activity_settings_view_data_format_text">Format</string>
+    <string name="activity_settings_view_xml_format_text">XML</string>
+    <string name="activity_settings_view_json_format_text">JSON</string>
+    <string name="activity_settings_view_storage_type_text">Storage Type</string>
+    <string name="activity_settings_view_url_text">URL:</string>
+    <string name="activity_settings_view_content_provider_text">Content Provider</string>
+    <string name="activity_settings_view_internal_memory_text">Internal Memory</string>
+    <string name="activity_settings_view_communication_type_text">Communication</string>
+    <string name="activity_settings_view_async_tasks_type_text">Async Tasks</string>
+    <string name="activity_settings_view_advertisement_type_text">Advertisement</string>
+    <string name="activity_settings_view_save_settings_button_text">SAVE SETTINGS</string>
+    <string name="activity_settings_view_cancel_settings_button_text">CANCEL SETTINGS</string>
+    <string name="activity_settings_view_visible_fields_text">Visible Fields</string>
+</resources>
