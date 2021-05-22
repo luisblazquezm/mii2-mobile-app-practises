@@ -1,0 +1,26 @@
+############## Visualiza3Imagenes: "com.example.visualiza3imagenes"
+Funciona: Mal gestionado. Al pulsar fin, vuelve al principio.
+Probable mala gestión de las actividades.
+Comentario: Te sobra la actividad inicial. La lógica un poco difícil de seguir.
+
+
+############## Proceso de instalación de App:
+Comentario: Tendrías que haber habilitado la rotación en el terminal a través de la barra de tareas. Así probarías esa actividad.
+
+
+############## DatosPersonaListCarga: "com.example.datospersonalistcarga"
+Funciona: Regular. Durante el proceso de carga de la lista inicial, me permite añadir (pulsar botón). Si lo hago la app finaliza abruptamente. No está bien conseguido la concurrencia entre el hilo de carga y el de la UI. El botón de añadir no debería estar disponible hasta que haya finalizado la carga inicial.
+No aprovecha toda la superficie para visualizar información.
+Al editar un registro y cambiar la fecha debería aparecer la que tiene en ese momento.
+No permite la rotación del dispositivo.
+
+No carga bien en segundo plano. En realidad si carga, pero no sincroniza bien.
+
+El almacen de datos debería implementarse en una clase.
+class Almacen
+
+public Almacen miAlmacen;
+miAlmacen = new Almacen(); //constructor
+
+Persona miPersona = new Persona( …….);
+miAlmacen.annade(miPersona);

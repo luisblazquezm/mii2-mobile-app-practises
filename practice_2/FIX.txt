@@ -1,0 +1,12 @@
+############ DatosPersona
+Responde a la orientación: No es usable. No permite scroll.
+Validar datos numéricos.
+Toma una fecha coherente por defecto, aunque mal la del sistema. Al pasar el mes a cadena no lo hace bien. Mayo la muestra como el mes 04.
+En horizontal no funciona porque no hace scroll.
+
+
+############ DatosPersonaList
+Al girar deja de funcionar abruptamente.
+Responde a la orientación: No
+Conserva el estado (valores): No, por lo dicho.
+La lógica del código no es limpia. Es difícil de seguir a veces.

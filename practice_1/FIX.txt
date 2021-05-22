@@ -1,0 +1,6 @@
+############# Suma
+Conserva el estado (valores): No las etiquetas.
+Comentario: Has copiado algún código que no has actualizado convenientemente. ¿”Suma 2017”?
+
+############# Etiqueta Colores
+Conserva el estado (valores): No
