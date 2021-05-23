@@ -1,6 +1,6 @@
-package com.example.datospersonalistalmacen;
+package com.example.datospersonalistalmacen.utils;
 
-public interface CONSTANTS {
+public interface Constants {
 
     // Intents
     // ---------------- INTENT KEYS
@@ -13,6 +13,16 @@ public interface CONSTANTS {
     // ----------------- INTENT REQUEST CODES
     int LAUNCH_SECOND_ACTIVITY_TO_ADD = 1;
     int LAUNCH_SECOND_ACTIVITY_TO_MODIFY = 2;
+    enum FILE_CODES {
+        FAILURE,
+        SUCCESS,
+        INCORRECT_FILENAME,
+        IO_FAILURE
+    };
+
+    // ----------------- FILENAMES IO
+    String DEFAULT_OUTPUT_XML_FILENAME = "Datos_Persona_List_Almacen_XML_Data.xml";
+    String DEFAULT_OUTPUT_JSON_FILENAME = "Datos_Persona_List_Almacen_XML_Data.json";
 
     // ----------------- SETTINGS
     String URL_SETTINGS_KEY = "URL";
@@ -24,6 +34,32 @@ public interface CONSTANTS {
     String REGISTRY_DATE_VISUALIZATION_SETTINGS_KEY = "REGISTRY_DATE_VISUALIZATION";
     String PHONE_VISUALIZATION_SETTINGS_KEY = "PHONE_VISUALIZATION";
     String ENGLISH_LEVEL_VISUALIZATION_SETTINGS_KEY = "ENGLISH_LEVEL_VISUALIZATION";
+    enum FORMAT_KEY_VALUES {
+        XML,
+        JSON
+    };
+    enum STORAGE_TYPE_KEY_VALUES {
+        INTERNAL_MEMORY,
+        CONTENT_PROVIDER
+    };
+    enum COMMUNICATION_KEY_VALUES {
+        ASYNC_TASKS
+    }
+
+    // ----------------- DATABASE AND CONTENT PROVIDER
+    String CP_DATABASE_NAME = "db";
+    int CP_DATABASE_VERSION = 1;
+    String CP_TABLE_NAME = "users";
+
+    // ----------------- COLUMNS
+    String ID_COLUMN = "id";
+    String NAME_COLUMN = "name";
+    String SURENNAMES_COLUMN = "surenames";
+    String AGE_COLUMN = "age";
+    String PHONE_COLUMN = "phone";
+    String DRIVING_LICENSE_COLUMN = "driving_license";
+    String ENGLISH_LEVEL_COLUMN = "english_level";
+    String DATE_COLUMN = "date";
 
     // States
     String PEOPLE_LIST_STATE_KEY = "PEOPLE_LIST_STATE";

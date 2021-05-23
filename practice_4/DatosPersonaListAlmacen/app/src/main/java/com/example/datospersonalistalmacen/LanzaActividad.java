@@ -1,7 +1,5 @@
 package com.example.datospersonalistalmacen;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -13,6 +11,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import com.example.datospersonalistalmacen.utils.Constants;
 
 import java.util.Calendar;
 
@@ -38,17 +38,17 @@ public class LanzaActividad extends Activity {
 
         // recovering the instance state
         if (savedInstanceState != null) {
-            this.newPerson.setName(savedInstanceState.getString(CONSTANTS.NAME_STATE_KEY));
-            this.newPerson.setSurename(savedInstanceState.getString(CONSTANTS.SURENAMES_STATE_KEY));
-            this.newPerson.setAge(savedInstanceState.getString(CONSTANTS.AGE_STATE_KEY));
-            this.newPerson.setPhone(savedInstanceState.getString(CONSTANTS.PHONE_STATE_KEY));
-            this.newPerson.setHasDrivingLicense(savedInstanceState.getBoolean(CONSTANTS.DRIVING_LICENSE_STATE_KEY));
+            this.newPerson.setName(savedInstanceState.getString(Constants.NAME_STATE_KEY));
+            this.newPerson.setSurename(savedInstanceState.getString(Constants.SURENAMES_STATE_KEY));
+            this.newPerson.setAge(savedInstanceState.getString(Constants.AGE_STATE_KEY));
+            this.newPerson.setPhone(savedInstanceState.getString(Constants.PHONE_STATE_KEY));
+            this.newPerson.setHasDrivingLicense(savedInstanceState.getBoolean(Constants.DRIVING_LICENSE_STATE_KEY));
 
-            RadioButton rb = (RadioButton) findViewById(savedInstanceState.getInt(CONSTANTS.ENGLISH_LEVEL_STATE_KEY));
+            RadioButton rb = (RadioButton) findViewById(savedInstanceState.getInt(Constants.ENGLISH_LEVEL_STATE_KEY));
             String radioText = rb.getText().toString();
             this.newPerson.setEnglishLevel(radioText);
 
-            this.newPerson.setDate(this.newPerson.parseFromStringToDate(savedInstanceState.getString(CONSTANTS.DATE_STATE_KEY)));
+            this.newPerson.setDate(this.newPerson.parseFromStringToDate(savedInstanceState.getString(Constants.DATE_STATE_KEY)));
         }
 
         setContentView(R.layout.activity_lanza_actividad);
@@ -65,12 +65,12 @@ public class LanzaActividad extends Activity {
         // Get data to modify
         Bundle intentExtraParameters = getIntent().getExtras();
         if (intentExtraParameters != null) {
-            this.requestCode = intentExtraParameters.getInt(CONSTANTS.INTENT_REQUEST_CODE_KEY);
+            this.requestCode = intentExtraParameters.getInt(Constants.INTENT_REQUEST_CODE_KEY);
 
-            if (CONSTANTS.LAUNCH_SECOND_ACTIVITY_TO_MODIFY == this.requestCode) { // To modify
-                UnaPersona personToModify = (UnaPersona) getIntent().getSerializableExtra(CONSTANTS.INTENT_ELEMENT_DATA_TO_MODIFY_KEY);
+            if (Constants.LAUNCH_SECOND_ACTIVITY_TO_MODIFY == this.requestCode) { // To modify
+                UnaPersona personToModify = (UnaPersona) getIntent().getSerializableExtra(Constants.INTENT_ELEMENT_DATA_TO_MODIFY_KEY);
                 this.setValuesIntoFields(personToModify); // set values to modify
-            } else if (CONSTANTS.LAUNCH_SECOND_ACTIVITY_TO_ADD == this.requestCode) { // To add new data
+            } else if (Constants.LAUNCH_SECOND_ACTIVITY_TO_ADD == this.requestCode) { // To add new data
                 this.dateString = this.getCurrenDate(); // initialize person attributes
                 this.dateTextView.setText(this.dateString); // set current date in initialization
             }
@@ -79,29 +79,29 @@ public class LanzaActividad extends Activity {
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
-        this.nameEditText.setText(savedInstanceState.getString(CONSTANTS.NAME_STATE_KEY));
-        this.surenamesEditText.setText(savedInstanceState.getString(CONSTANTS.SURENAMES_STATE_KEY));
-        this.ageEditText.setText(savedInstanceState.getString(CONSTANTS.AGE_STATE_KEY));
-        this.phoneEditText.setText(savedInstanceState.getString(CONSTANTS.PHONE_STATE_KEY));
-        this.drivingLicenseCheckbox.setChecked(savedInstanceState.getBoolean(CONSTANTS.DRIVING_LICENSE_STATE_KEY));
-        this.englishLevelRadioGroup.check(savedInstanceState.getInt(CONSTANTS.ENGLISH_LEVEL_STATE_KEY));
-        this.dateTextView.setText(savedInstanceState.getString(CONSTANTS.DATE_STATE_KEY));
+        this.nameEditText.setText(savedInstanceState.getString(Constants.NAME_STATE_KEY));
+        this.surenamesEditText.setText(savedInstanceState.getString(Constants.SURENAMES_STATE_KEY));
+        this.ageEditText.setText(savedInstanceState.getString(Constants.AGE_STATE_KEY));
+        this.phoneEditText.setText(savedInstanceState.getString(Constants.PHONE_STATE_KEY));
+        this.drivingLicenseCheckbox.setChecked(savedInstanceState.getBoolean(Constants.DRIVING_LICENSE_STATE_KEY));
+        this.englishLevelRadioGroup.check(savedInstanceState.getInt(Constants.ENGLISH_LEVEL_STATE_KEY));
+        this.dateTextView.setText(savedInstanceState.getString(Constants.DATE_STATE_KEY));
     }
 
     // invoked when the activity may be temporarily destroyed, save the instance state here
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putString(CONSTANTS.NAME_STATE_KEY, this.nameEditText.getText().toString());
-        outState.putString(CONSTANTS.SURENAMES_STATE_KEY, this.surenamesEditText.getText().toString());
-        outState.putString(CONSTANTS.AGE_STATE_KEY, this.ageEditText.getText().toString());
-        outState.putString(CONSTANTS.PHONE_STATE_KEY, this.phoneEditText.getText().toString());
-        outState.putBoolean(CONSTANTS.DRIVING_LICENSE_STATE_KEY, this.drivingLicenseCheckbox.isChecked());
+        outState.putString(Constants.NAME_STATE_KEY, this.nameEditText.getText().toString());
+        outState.putString(Constants.SURENAMES_STATE_KEY, this.surenamesEditText.getText().toString());
+        outState.putString(Constants.AGE_STATE_KEY, this.ageEditText.getText().toString());
+        outState.putString(Constants.PHONE_STATE_KEY, this.phoneEditText.getText().toString());
+        outState.putBoolean(Constants.DRIVING_LICENSE_STATE_KEY, this.drivingLicenseCheckbox.isChecked());
 
         int selectedEnglishLevelButtonId = this.englishLevelRadioGroup.getCheckedRadioButtonId();
         RadioButton selectedEnglishLevelRadioButton = (RadioButton) findViewById(selectedEnglishLevelButtonId);
-        outState.putString(CONSTANTS.ENGLISH_LEVEL_STATE_KEY, selectedEnglishLevelRadioButton.getText().toString());
+        outState.putString(Constants.ENGLISH_LEVEL_STATE_KEY, selectedEnglishLevelRadioButton.getText().toString());
 
-        outState.putString(CONSTANTS.DATE_STATE_KEY, this.dateTextView.getText().toString());
+        outState.putString(Constants.DATE_STATE_KEY, this.dateTextView.getText().toString());
 
         // call superclass to save any view hierarchy
         super.onSaveInstanceState(outState);
@@ -114,14 +114,14 @@ public class LanzaActividad extends Activity {
         this.surenamesEditText.setText(p.getSurename());
         // Age field (check values because its a number field and not text)
         String age = p.getAge();
-        if (age.equals(CONSTANTS.UNKNOWN_DEFAULT_VALUE)){
+        if (age.equals(Constants.UNKNOWN_DEFAULT_VALUE)){
             this.ageEditText.setText("");
         } else {
             this.ageEditText.setText(p.getAge());
         }
         // Phone field (check values because its a number field and not text)
         String phone = p.getPhone();
-        if (phone.equals(CONSTANTS.UNKNOWN_DEFAULT_VALUE)){
+        if (phone.equals(Constants.UNKNOWN_DEFAULT_VALUE)){
             this.phoneEditText.setText("");
         } else {
             this.phoneEditText.setText(p.getPhone());
@@ -181,7 +181,7 @@ public class LanzaActividad extends Activity {
         // ----------- SURENAMES
         String surenames = this.surenamesEditText.getText().toString();
         if (name.isEmpty() && surenames.isEmpty()) {
-            name = CONSTANTS.UNKNOWN_DEFAULT_VALUE;
+            name = Constants.UNKNOWN_DEFAULT_VALUE;
             surenames = "";
         }
         this.newPerson.setName(name);
@@ -190,14 +190,14 @@ public class LanzaActividad extends Activity {
         // ----------- AGE
         String age = this.ageEditText.getText().toString();
         if (age.isEmpty()) {
-            age = CONSTANTS.UNKNOWN_DEFAULT_VALUE;
+            age = Constants.UNKNOWN_DEFAULT_VALUE;
         }
         this.newPerson.setAge(age);
 
         // ----------- PHONE
         String phone = this.phoneEditText.getText().toString();
         if (phone.isEmpty()) {
-            phone = CONSTANTS.UNKNOWN_DEFAULT_VALUE;
+            phone = Constants.UNKNOWN_DEFAULT_VALUE;
         }
         this.newPerson.setPhone(phone);
 
@@ -217,13 +217,13 @@ public class LanzaActividad extends Activity {
         // Pass data from activity to main activity with intent
         Intent returnIntent = new Intent(this, MainActivity.class);
         returnIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // clears the activity stack so that the user cannot go back to the previous activity with the BACK button
-        returnIntent.putExtra(CONSTANTS.INTENT_ELEMENT_NEW_PERSON_KEY, this.newPerson);
+        returnIntent.putExtra(Constants.INTENT_ELEMENT_NEW_PERSON_KEY, this.newPerson);
 
         // Send position of element if is to modify
-        if (getIntent().hasExtra(CONSTANTS.INTENT_ELEMENT_POSITION_TO_MODIFY_KEY) &&
-                CONSTANTS.LAUNCH_SECOND_ACTIVITY_TO_MODIFY == this.requestCode){
-            int elementPosition = getIntent().getIntExtra(CONSTANTS.INTENT_ELEMENT_POSITION_TO_MODIFY_KEY, 0);
-            returnIntent.putExtra(CONSTANTS.INTENT_ELEMENT_POSITION_TO_MODIFY_KEY, elementPosition);
+        if (getIntent().hasExtra(Constants.INTENT_ELEMENT_POSITION_TO_MODIFY_KEY) &&
+                Constants.LAUNCH_SECOND_ACTIVITY_TO_MODIFY == this.requestCode){
+            int elementPosition = getIntent().getIntExtra(Constants.INTENT_ELEMENT_POSITION_TO_MODIFY_KEY, 0);
+            returnIntent.putExtra(Constants.INTENT_ELEMENT_POSITION_TO_MODIFY_KEY, elementPosition);
         }
 
         setResult(Activity.RESULT_OK, returnIntent); // set ok flag in result

@@ -44,7 +44,7 @@
     <string name="activity_settings_view_storage_type_text">Tipo de almacenamiento</string>
     <string name="activity_settings_view_url_text">URL:</string>
     <string name="activity_settings_view_content_provider_text">Content Provider</string>
-    <string name="activity_settings_view_internal_memory_text">Memoria interna</string>
+    <string name="activity_settings_view_internal_memory_text">Memoria externa</string>
     <string name="activity_settings_view_communication_type_text">Comunicación</string>
     <string name="activity_settings_view_async_tasks_type_text">Tareas asíncronas</string>
     <string name="activity_settings_view_advertisement_type_text">Anuncio</string>

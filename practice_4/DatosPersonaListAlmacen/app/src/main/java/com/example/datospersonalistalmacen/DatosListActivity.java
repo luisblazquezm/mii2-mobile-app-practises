@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
@@ -15,7 +17,9 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.datospersonalistalmacen.storage.Almacen;
+import com.example.datospersonalistalmacen.model.Almacen;
+import com.example.datospersonalistalmacen.utils.Constants;
+import com.example.datospersonalistalmacen.utils.Utils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,19 +38,26 @@ public class DatosListActivity extends AppCompatActivity {
     private final int LOAD_TIME_IN_MILLISECONDS = 5 * 1000; // 5 seconds
 
     // OTHERS
-    private static ArrayList<UnaPersona> peopleList = new ArrayList<UnaPersona>();
+    private Almacen userStorage = null;
     private AdapterPerson listViewArrayAdapter = null;
+    private SharedPreferences sharedSettings = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_datos_list);
 
+        // Initialize storage
+        this.userStorage = new Almacen();
+
+        // Get reference to shared settings
+        this.sharedSettings = DatosListActivity.this.getSharedPreferences(Constants.SHARED_SETTINGS_KEY, Context.MODE_PRIVATE);
+
         // check if there is data from previous session
 
         // recovering the instance state
         if (savedInstanceState != null) {
-            Parcelable state = savedInstanceState.getParcelable(CONSTANTS.PEOPLE_LIST_STATE_KEY);
+            Parcelable state = savedInstanceState.getParcelable(Constants.PEOPLE_LIST_STATE_KEY);
             listView.onRestoreInstanceState(state);
         }
 
@@ -54,7 +65,7 @@ public class DatosListActivity extends AppCompatActivity {
         this.listView = (ListView) findViewById(R.id.peopleListView);
         this.emptyTextView =(TextView) findViewById(R.id.emptyTextView);
 
-        // Set empty message of "Not availabe" when list view is empty in the initialization
+        // Set empty message of "Not available" when list view is empty in the initialization
         this.listView.setEmptyView(emptyTextView);
 
         // Start app when start activity
@@ -79,9 +90,6 @@ public class DatosListActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                // Fill peopleList
-                peopleList.addAll(Almacen.loadFromStorage());
-
                 // Simulate loading
                 try {
                     Thread.sleep(LOAD_TIME_IN_MILLISECONDS);
@@ -98,7 +106,7 @@ public class DatosListActivity extends AppCompatActivity {
                         // This is the array adapter, it takes the context of the activity as a
                         // first parameter, the type of list view as a second parameter and the
                         // array as a third parameter.
-                        listViewArrayAdapter = new AdapterPerson(DatosListActivity.this, peopleList);
+                        listViewArrayAdapter = new AdapterPerson(DatosListActivity.this, DatosListActivity.this.userStorage.getList());
 
                         listView.setAdapter(listViewArrayAdapter); // set adapter
                         listView.setOnItemClickListener(modifyPersonData); // set event when click on element
@@ -115,14 +123,14 @@ public class DatosListActivity extends AppCompatActivity {
     // The savedInstanceState Bundle is same as the one used in onCreate().
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
-        Parcelable state = (Parcelable) savedInstanceState.getSerializable(CONSTANTS.PEOPLE_LIST_STATE_KEY);
+        Parcelable state = (Parcelable) savedInstanceState.getSerializable(Constants.PEOPLE_LIST_STATE_KEY);
         listView.onRestoreInstanceState(state);
     }
 
     // invoked when the activity may be temporarily destroyed, save the instance state here
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putParcelable(CONSTANTS.PEOPLE_LIST_STATE_KEY, this.listView.onSaveInstanceState());
+        outState.putParcelable(Constants.PEOPLE_LIST_STATE_KEY, this.listView.onSaveInstanceState());
 
         // call superclass to save any view hierarchy
         super.onSaveInstanceState(outState);
@@ -133,15 +141,15 @@ public class DatosListActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         // Check the type of operation requested by request code sent in startActivityForResult
-        if (requestCode == CONSTANTS.LAUNCH_SECOND_ACTIVITY_TO_ADD) {
+        if (requestCode == Constants.LAUNCH_SECOND_ACTIVITY_TO_ADD) {
             if(resultCode == Activity.RESULT_OK) { // new person added
                 // Get the Intent that started this activity and extract the string
                 if (data != null) {
                     // Get extra attributes
-                    UnaPersona newPerson = (UnaPersona) data.getSerializableExtra(CONSTANTS.INTENT_ELEMENT_NEW_PERSON_KEY);
+                    UnaPersona newPerson = (UnaPersona) data.getSerializableExtra(Constants.INTENT_ELEMENT_NEW_PERSON_KEY);
 
                     // Add new person
-                    peopleList.add(newPerson);
+                    userStorage.insert(newPerson);
 
                     // Notify adapter about the modification to update the data in list
                     this.listViewArrayAdapter.notifyDataSetChanged();
@@ -149,16 +157,16 @@ public class DatosListActivity extends AppCompatActivity {
             } else if (resultCode != Activity.RESULT_CANCELED) { // canceled
                 // Nothing
             }
-        } else if (requestCode == CONSTANTS.LAUNCH_SECOND_ACTIVITY_TO_MODIFY) {
+        } else if (requestCode == Constants.LAUNCH_SECOND_ACTIVITY_TO_MODIFY) {
             if(resultCode == Activity.RESULT_OK) { // new person added
                 // Get the Intent that started this activity and extract the string
                 if (data != null) {
                     // Get extra attributes
-                    int position = data.getIntExtra(CONSTANTS.INTENT_ELEMENT_POSITION_TO_MODIFY_KEY, 0);
-                    UnaPersona personModified = (UnaPersona) data.getSerializableExtra(CONSTANTS.INTENT_ELEMENT_NEW_PERSON_KEY);
+                    int position = data.getIntExtra(Constants.INTENT_ELEMENT_POSITION_TO_MODIFY_KEY, 0);
+                    UnaPersona personModified = (UnaPersona) data.getSerializableExtra(Constants.INTENT_ELEMENT_NEW_PERSON_KEY);
 
                     // Set new data
-                    peopleList.set(position, personModified);
+                    userStorage.update(position, personModified);
 
                     // Notify adapter about the modification to update the data in list
                     this.listViewArrayAdapter.notifyDataSetChanged();
@@ -171,11 +179,33 @@ public class DatosListActivity extends AppCompatActivity {
 
     public void addPersonData(View view) {
         Intent intent = new Intent(this, LanzaActividad.class);
-        intent.putExtra(CONSTANTS.INTENT_REQUEST_CODE_KEY, CONSTANTS.LAUNCH_SECOND_ACTIVITY_TO_ADD); // add request code to identify operation in activity
-        startActivityForResult(intent, CONSTANTS.LAUNCH_SECOND_ACTIVITY_TO_ADD);
+        intent.putExtra(Constants.INTENT_REQUEST_CODE_KEY, Constants.LAUNCH_SECOND_ACTIVITY_TO_ADD); // add request code to identify operation in activity
+        startActivityForResult(intent, Constants.LAUNCH_SECOND_ACTIVITY_TO_ADD);
     }
 
     public void storePersonData(View view) {
+        String content = null;
+
+        /* CHOOSE STORAGE TYPE */
+        int storageTypeIdSelected = this.sharedSettings.getInt(Constants.FORMAT_SETTINGS_KEY, R.id.xmlFormatRadioButton);
+        if (R.id.contentProviderRadioButton == storageTypeIdSelected){
+            userStorage.bulkDataToContentProvider(); // Bulk all the records of the list into database with content provider
+        } else if (R.id.externalMemoryRadioButton == storageTypeIdSelected) {
+
+            /* CHOOSE FORMAT TYPE */
+            int formatTypeIdSelected = this.sharedSettings.getInt(Constants.FORMAT_SETTINGS_KEY, R.id.xmlFormatRadioButton);
+            if (R.id.xmlFormatRadioButton == formatTypeIdSelected) { // XML format selected in settings
+                content = Utils.multipleItemsToXML(this.userStorage.getList()); // Parse to JSON object string
+            } else if (R.id.jsonFormatRadioButton == formatTypeIdSelected){ // JSON format selected in settings
+                content = Utils.toJSON(this.userStorage.getList()); // Parse to JSON object string
+            }
+
+            // Parse to bytes for better output export
+            byte[] dataToExport = content.getBytes();
+
+            // Export content to file
+            Utils.exportToFile(Constants.DEFAULT_OUTPUT_JSON_FILENAME, dataToExport); // Export content to file
+        }
     }
 
     private AdapterView.OnItemClickListener modifyPersonData = new AdapterView.OnItemClickListener() {
@@ -184,11 +214,11 @@ public class DatosListActivity extends AppCompatActivity {
             Intent intent = new Intent(DatosListActivity.this, LanzaActividad.class);
 
             // Add extra attributes
-            intent.putExtra(CONSTANTS.INTENT_REQUEST_CODE_KEY, CONSTANTS.LAUNCH_SECOND_ACTIVITY_TO_MODIFY);
-            intent.putExtra(CONSTANTS.INTENT_ELEMENT_POSITION_TO_MODIFY_KEY, position);
-            intent.putExtra(CONSTANTS.INTENT_ELEMENT_DATA_TO_MODIFY_KEY, (Serializable) DatosListActivity.this.listViewArrayAdapter.getItem(position));
+            intent.putExtra(Constants.INTENT_REQUEST_CODE_KEY, Constants.LAUNCH_SECOND_ACTIVITY_TO_MODIFY);
+            intent.putExtra(Constants.INTENT_ELEMENT_POSITION_TO_MODIFY_KEY, position);
+            intent.putExtra(Constants.INTENT_ELEMENT_DATA_TO_MODIFY_KEY, (Serializable) DatosListActivity.this.listViewArrayAdapter.getItem(position));
 
-            startActivityForResult(intent, CONSTANTS.LAUNCH_SECOND_ACTIVITY_TO_MODIFY);
+            startActivityForResult(intent, Constants.LAUNCH_SECOND_ACTIVITY_TO_MODIFY);
         }
     };
 
@@ -206,6 +236,7 @@ public class DatosListActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             DatosListActivity.this.listViewArrayAdapter.remove(personToDelete);
+                            DatosListActivity.this.userStorage.delete(personToDelete);
                         }
                     })
                     .setNegativeButton(getResources().getString(R.string.pc_no), null)

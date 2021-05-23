@@ -21,6 +21,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".LanzaActividad" />
+        <provider
+            android:name=".model.AlmacenProvider"
+            android:authorities="com.example.datospersonalistalmacen.model.AlmacenProvider"
+            android:exported="false" />
     </application>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 </manifest>

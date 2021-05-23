@@ -2,12 +2,13 @@ package com.example.datospersonalistalmacen;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.example.datospersonalistalmacen.utils.Constants;
 
 import java.util.ArrayList;
 
@@ -21,7 +22,7 @@ public class AdapterPerson extends ArrayAdapter<UnaPersona> {
         this.peopleList = peopleList;
 
         // Get settings for all the app
-        this.sharedSettings = context.getSharedPreferences(CONSTANTS.SHARED_SETTINGS_KEY, Context.MODE_PRIVATE);
+        this.sharedSettings = context.getSharedPreferences(Constants.SHARED_SETTINGS_KEY, Context.MODE_PRIVATE);
     }
 
     @Override
@@ -65,11 +66,11 @@ public class AdapterPerson extends ArrayAdapter<UnaPersona> {
         tvDate.setText(person.parseFromDateToString(person.getDate()));
 
         // Based on the settings set visibility of the fields
-        tvAge.setVisibility(this.sharedSettings.getBoolean(CONSTANTS.AGE_VISUALIZATION_SETTINGS_KEY, true) ? View.VISIBLE : View.GONE);
-        tvDrivingLicense.setVisibility(this.sharedSettings.getBoolean(CONSTANTS.DRIVING_LICENSE_VISUALIZATION_SETTINGS_KEY, true) ? View.VISIBLE : View.GONE);
-        tvEnglishLevel.setVisibility(this.sharedSettings.getBoolean(CONSTANTS.REGISTRY_DATE_VISUALIZATION_SETTINGS_KEY, true) ? View.VISIBLE : View.GONE);
+        tvAge.setVisibility(this.sharedSettings.getBoolean(Constants.AGE_VISUALIZATION_SETTINGS_KEY, true) ? View.VISIBLE : View.GONE);
+        tvDrivingLicense.setVisibility(this.sharedSettings.getBoolean(Constants.DRIVING_LICENSE_VISUALIZATION_SETTINGS_KEY, true) ? View.VISIBLE : View.GONE);
+        tvEnglishLevel.setVisibility(this.sharedSettings.getBoolean(Constants.REGISTRY_DATE_VISUALIZATION_SETTINGS_KEY, true) ? View.VISIBLE : View.GONE);
         //tvAge.setVisibility(this.sharedSettings.getBoolean(CONSTANTS.PHONE_VISUALIZATION_SETTINGS_KEY, true) ? View.VISIBLE : View.GONE);
-        tvDate.setVisibility(this.sharedSettings.getBoolean(CONSTANTS.ENGLISH_LEVEL_VISUALIZATION_SETTINGS_KEY, true) ? View.VISIBLE : View.GONE);
+        tvDate.setVisibility(this.sharedSettings.getBoolean(Constants.ENGLISH_LEVEL_VISUALIZATION_SETTINGS_KEY, true) ? View.VISIBLE : View.GONE);
 
         // Return the completed view to render on screen
         return rowView;

@@ -1,10 +1,13 @@
 package com.example.datospersonalistalmacen;
 
+import com.google.gson.Gson;
+
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 
 public class UnaPersona implements Serializable {
 
@@ -126,4 +129,5 @@ public class UnaPersona implements Serializable {
             return null;
         }
     }
+
 }

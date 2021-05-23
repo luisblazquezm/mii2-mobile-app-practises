@@ -43,7 +43,7 @@
     <string name="activity_settings_view_storage_type_text">Storage Type</string>
     <string name="activity_settings_view_url_text">URL:</string>
     <string name="activity_settings_view_content_provider_text">Content Provider</string>
-    <string name="activity_settings_view_internal_memory_text">Internal Memory</string>
+    <string name="activity_settings_view_internal_memory_text">External Memory</string>
     <string name="activity_settings_view_communication_type_text">Communication</string>
     <string name="activity_settings_view_async_tasks_type_text">Async Tasks</string>
     <string name="activity_settings_view_advertisement_type_text">Advertisement</string>
