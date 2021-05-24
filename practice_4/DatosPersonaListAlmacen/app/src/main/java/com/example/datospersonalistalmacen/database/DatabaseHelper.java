@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -13,11 +14,12 @@ import com.example.datospersonalistalmacen.utils.Constants;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public DatabaseHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
+    public DatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 
     public void onCreate(SQLiteDatabase database) {
+        Log.d("d", "Creating database");
         createTable(database); // Create "users" table
         loadInitialData(database, Constants.CP_TABLE_NAME); // Load 5 records
     }

@@ -1,15 +1,15 @@
 package com.example.datospersonalistalmacen;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -24,13 +24,13 @@ import com.example.datospersonalistalmacen.utils.Utils;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class DatosListActivity extends AppCompatActivity {
+public class DatosListActivity extends Activity {
 
     // UI ELEMENTS
     private ListView listView = null;
     private Button addButton = null;
+    private Button saveButton = null;
     private Button cancelButton = null;
-    private Button startAppButton = null;
     private TextView emptyTextView = null;
     private ProgressBar loadingProgressBarr = null;
 
@@ -56,10 +56,12 @@ public class DatosListActivity extends AppCompatActivity {
         // check if there is data from previous session
 
         // recovering the instance state
-        if (savedInstanceState != null) {
-            Parcelable state = savedInstanceState.getParcelable(Constants.PEOPLE_LIST_STATE_KEY);
-            listView.onRestoreInstanceState(state);
-        }
+        /*if (savedInstanceState != null) {
+            this.userStorage = savedInstanceState.getParcelable(Constants.PEOPLE_LIST_STATE_KEY);
+
+            // Update results of adapter with the list on userStorage
+            listViewArrayAdapter.updateResults(this.userStorage.getList());
+        }*/
 
         // Capture the layout's TextView and set the string as its text
         this.listView = (ListView) findViewById(R.id.peopleListView);
@@ -76,20 +78,25 @@ public class DatosListActivity extends AppCompatActivity {
 
         // Visible buttons and hide start app
         this.addButton = (Button) findViewById(R.id.addPersonButton);
+        this.saveButton = (Button) findViewById(R.id.saveDataButton);
         this.cancelButton = (Button) findViewById(R.id.exitButton);
-        this.startAppButton = (Button) findViewById(R.id.startProgramButton);
         this.loadingProgressBarr = (ProgressBar) findViewById(R.id.progressBarLoading);
 
-        this.addButton.setVisibility(View.VISIBLE);
-        this.cancelButton.setVisibility(View.VISIBLE);
         this.loadingProgressBarr.setVisibility(View.VISIBLE);
-        this.startAppButton.setVisibility(View.GONE);
         this.emptyTextView.setVisibility(View.GONE);
 
         // Fill listview with a thread
         new Thread(new Runnable() {
             @Override
             public void run() {
+
+                // Get content
+                String URL = DatosListActivity.this.sharedSettings.getString(Constants.URL_SETTINGS_KEY, "");
+                if (URL.isEmpty() || URL == "")
+                    DatosListActivity.this.userStorage.initializeStaticStorage(); // Load data from static
+                else
+                    DatosListActivity.this.userStorage.initializeStorageFromURL(URL); // If valid url initialize data
+
                 // Simulate loading
                 try {
                     Thread.sleep(LOAD_TIME_IN_MILLISECONDS);
@@ -102,6 +109,11 @@ public class DatosListActivity extends AppCompatActivity {
                     public void run() {
                         // Hide loading progress barr
                         loadingProgressBarr.setVisibility(View.GONE);
+
+                        // Show buttons
+                        addButton.setVisibility(View.VISIBLE);
+                        saveButton.setVisibility(View.VISIBLE);
+                        cancelButton.setVisibility(View.VISIBLE);
 
                         // This is the array adapter, it takes the context of the activity as a
                         // first parameter, the type of list view as a second parameter and the
@@ -123,14 +135,22 @@ public class DatosListActivity extends AppCompatActivity {
     // The savedInstanceState Bundle is same as the one used in onCreate().
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
-        Parcelable state = (Parcelable) savedInstanceState.getSerializable(Constants.PEOPLE_LIST_STATE_KEY);
-        listView.onRestoreInstanceState(state);
+        super.onRestoreInstanceState(savedInstanceState);
+        this.userStorage = savedInstanceState.getParcelable(Constants.PEOPLE_LIST_STATE_KEY);
+
+        // This is the array adapter, it takes the context of the activity as a
+        // first parameter, the type of list view as a second parameter and the
+        // array as a third parameter.
+        listViewArrayAdapter = new AdapterPerson(DatosListActivity.this, DatosListActivity.this.userStorage.getList());
+
+        // Update results of adapter with the list on userStorage
+        this.listViewArrayAdapter.updateResults(this.userStorage.getList());
     }
 
     // invoked when the activity may be temporarily destroyed, save the instance state here
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putParcelable(Constants.PEOPLE_LIST_STATE_KEY, this.listView.onSaveInstanceState());
+        outState.putParcelable(Constants.PEOPLE_LIST_STATE_KEY, this.userStorage);
 
         // call superclass to save any view hierarchy
         super.onSaveInstanceState(outState);
@@ -146,7 +166,7 @@ public class DatosListActivity extends AppCompatActivity {
                 // Get the Intent that started this activity and extract the string
                 if (data != null) {
                     // Get extra attributes
-                    UnaPersona newPerson = (UnaPersona) data.getSerializableExtra(Constants.INTENT_ELEMENT_NEW_PERSON_KEY);
+                    UnaPersona newPerson = (UnaPersona) data.getParcelableExtra(Constants.INTENT_ELEMENT_NEW_PERSON_KEY);
 
                     // Add new person
                     userStorage.insert(newPerson);
@@ -163,7 +183,7 @@ public class DatosListActivity extends AppCompatActivity {
                 if (data != null) {
                     // Get extra attributes
                     int position = data.getIntExtra(Constants.INTENT_ELEMENT_POSITION_TO_MODIFY_KEY, 0);
-                    UnaPersona personModified = (UnaPersona) data.getSerializableExtra(Constants.INTENT_ELEMENT_NEW_PERSON_KEY);
+                    UnaPersona personModified = (UnaPersona) data.getParcelableExtra(Constants.INTENT_ELEMENT_NEW_PERSON_KEY);
 
                     // Set new data
                     userStorage.update(position, personModified);
@@ -184,19 +204,25 @@ public class DatosListActivity extends AppCompatActivity {
     }
 
     public void storePersonData(View view) {
-        String content = null;
+        String content = null, filename = null;
+
+        Log.d("d", "Storing data person data");
 
         /* CHOOSE STORAGE TYPE */
-        int storageTypeIdSelected = this.sharedSettings.getInt(Constants.FORMAT_SETTINGS_KEY, R.id.xmlFormatRadioButton);
+        int storageTypeIdSelected = this.sharedSettings.getInt(Constants.STORAGE_TYPE_SETTINGS_KEY, R.id.contentProviderRadioButton);
         if (R.id.contentProviderRadioButton == storageTypeIdSelected){
+            Log.d("d", "CONTENT PROVIDER---------------------");
             userStorage.bulkDataToContentProvider(); // Bulk all the records of the list into database with content provider
         } else if (R.id.externalMemoryRadioButton == storageTypeIdSelected) {
+            Log.d("d", "EXTERNAL MEMORY---------------------");
 
             /* CHOOSE FORMAT TYPE */
             int formatTypeIdSelected = this.sharedSettings.getInt(Constants.FORMAT_SETTINGS_KEY, R.id.xmlFormatRadioButton);
             if (R.id.xmlFormatRadioButton == formatTypeIdSelected) { // XML format selected in settings
+                filename = Constants.DEFAULT_OUTPUT_XML_FILENAME;
                 content = Utils.multipleItemsToXML(this.userStorage.getList()); // Parse to JSON object string
             } else if (R.id.jsonFormatRadioButton == formatTypeIdSelected){ // JSON format selected in settings
+                filename = Constants.DEFAULT_OUTPUT_JSON_FILENAME;
                 content = Utils.toJSON(this.userStorage.getList()); // Parse to JSON object string
             }
 
@@ -204,7 +230,8 @@ public class DatosListActivity extends AppCompatActivity {
             byte[] dataToExport = content.getBytes();
 
             // Export content to file
-            Utils.exportToFile(Constants.DEFAULT_OUTPUT_JSON_FILENAME, dataToExport); // Export content to file
+            ContextWrapper cw = new ContextWrapper(this.getApplicationContext());
+            Utils.exportToFile(cw, filename, dataToExport); // Export content to file
         }
     }
 
@@ -216,7 +243,7 @@ public class DatosListActivity extends AppCompatActivity {
             // Add extra attributes
             intent.putExtra(Constants.INTENT_REQUEST_CODE_KEY, Constants.LAUNCH_SECOND_ACTIVITY_TO_MODIFY);
             intent.putExtra(Constants.INTENT_ELEMENT_POSITION_TO_MODIFY_KEY, position);
-            intent.putExtra(Constants.INTENT_ELEMENT_DATA_TO_MODIFY_KEY, (Serializable) DatosListActivity.this.listViewArrayAdapter.getItem(position));
+            intent.putExtra(Constants.INTENT_ELEMENT_DATA_TO_MODIFY_KEY, (Parcelable) DatosListActivity.this.listViewArrayAdapter.getItem(position));
 
             startActivityForResult(intent, Constants.LAUNCH_SECOND_ACTIVITY_TO_MODIFY);
         }

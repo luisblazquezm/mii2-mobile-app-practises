@@ -50,4 +50,5 @@
     <string name="activity_settings_view_save_settings_button_text">SAVE SETTINGS</string>
     <string name="activity_settings_view_cancel_settings_button_text">CANCEL SETTINGS</string>
     <string name="activity_settings_view_visible_fields_text">Visible Fields</string>
+    <string name="list_view_item_phone_text">Phone</string>
 </resources>

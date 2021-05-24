@@ -1,7 +1,5 @@
 package com.example.datospersonalistalmacen;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,10 +12,10 @@ import android.widget.TextView;
 
 import com.example.datospersonalistalmacen.utils.Constants;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends Activity {
 
     // UI ELEMENTS
-    private TextView urlTextView = null;
+    private TextView urlEditText = null;
     private RadioGroup formatRadioGroup = null;
     private RadioGroup storageTypeRadioGroup = null;
     private RadioGroup communicationRadioGroup = null;
@@ -36,7 +34,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         // Get UI element references
-        this.urlTextView = (TextView) findViewById(R.id.urlTextView);
+        this.urlEditText = (TextView) findViewById(R.id.urlEditText);
         this.formatRadioGroup = (RadioGroup) findViewById(R.id.dataFormatRadioGroup);
         this.storageTypeRadioGroup = (RadioGroup) findViewById(R.id.storageTypeRadioGroup);
         this.communicationRadioGroup = (RadioGroup) findViewById(R.id.communicationTypeRadioGroup);
@@ -55,7 +53,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void setInitSettingsValues() {
         // URL
-        this.urlTextView.setText(this.sharedSettings.getString(Constants.URL_SETTINGS_KEY, ""));
+        this.urlEditText.setText(this.sharedSettings.getString(Constants.URL_SETTINGS_KEY, ""));
 
         // Radio groups
         this.formatRadioGroup.check(this.sharedSettings.getInt(Constants.FORMAT_SETTINGS_KEY, R.id.xmlFormatRadioButton));
@@ -76,7 +74,7 @@ public class SettingsActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = this.sharedSettings.edit();
 
         // URL
-        editor.putString(Constants.URL_SETTINGS_KEY, this.urlTextView.getText().toString());
+        editor.putString(Constants.URL_SETTINGS_KEY, this.urlEditText.getText().toString());
 
         // Radio groups
         editor.putInt(Constants.FORMAT_SETTINGS_KEY, this.formatRadioGroup.getCheckedRadioButtonId());
@@ -92,6 +90,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         // Commit and store changes
         editor.commit();
+
+        // Finish
+        this.exitSettings(view);
     }
 
     public void exitSettings(View view) {

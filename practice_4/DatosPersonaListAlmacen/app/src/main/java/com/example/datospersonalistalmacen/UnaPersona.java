@@ -1,6 +1,14 @@
 package com.example.datospersonalistalmacen;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.example.datospersonalistalmacen.utils.Constants;
+import com.example.datospersonalistalmacen.utils.Utils;
 import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -9,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class UnaPersona implements Serializable {
+public class UnaPersona implements Parcelable {
 
     String name;
     String surename;
@@ -27,6 +35,59 @@ public class UnaPersona implements Serializable {
         this.hasDrivingLicense = false;
         this.englishLevel = "";
         this.date = null;
+    }
+
+    public UnaPersona(JSONObject objectFromURL) {
+        try {
+            this.name = objectFromURL.getString(Constants.JSON_URL_NAME_PARAMETER);
+        } catch (JSONException e) {
+            this.name = Constants.UNKNOWN_DEFAULT_VALUE;
+        }
+
+        try {
+            this.surename = objectFromURL.getString(Constants.JSON_URL_SURENAMES_PARAMETER);
+        } catch (JSONException e) {
+            this.surename = Constants.UNKNOWN_DEFAULT_VALUE;
+        }
+
+        try {
+            this.phone = objectFromURL.getString(Constants.JSON_URL_PHONE_PARAMETER);
+        } catch (JSONException e) {
+            this.phone = Constants.UNKNOWN_DEFAULT_VALUE;
+        }
+
+        try {
+            this.hasDrivingLicense = (objectFromURL.getString(Constants.JSON_URL_DRIVING_LICENSE_PARAMETER) == "S") ? true : false;
+        } catch (JSONException e) {
+            this.hasDrivingLicense = false;
+        }
+
+        try {
+            switch (objectFromURL.getString(Constants.JSON_URL_ENGLISH_LEVEL_PARAMETER)){
+                case "H":
+                    this.englishLevel = Constants.HIGH_LEVEL_VALUE;
+                    break;
+                case "M":
+                    this.englishLevel = Constants.MEDIUM_LEVEL_VALUE;
+                    break;
+                case "L":
+                    this.englishLevel = Constants.LOW_LEVEL_VALUE;
+                    break;
+                default:
+                    this.englishLevel = Constants.HIGH_LEVEL_VALUE;
+                    break;
+            }
+        } catch (JSONException e) {
+            this.englishLevel = Constants.UNKNOWN_DEFAULT_VALUE;
+        }
+
+        try {
+            this.date = this.parseFromStringToDate(objectFromURL.getString(Constants.JSON_URL_REGISTRY_DATE_PARAMETER));
+        } catch (JSONException e) {
+            this.date = null;
+        }
+
+        this.age = Constants.UNKNOWN_DEFAULT_VALUE;
     }
 
     public UnaPersona(String name, String surename,
@@ -117,7 +178,10 @@ public class UnaPersona implements Serializable {
         String pattern = "dd/MM/yyyy";
         DateFormat df = new SimpleDateFormat(pattern);
 
-        return df.format(d);
+        if (d == null)
+            return Utils.getCurrenDate();
+        else
+            return df.format(d);
     }
 
     public Date parseFromStringToDate(String stringDate) {
@@ -130,4 +194,43 @@ public class UnaPersona implements Serializable {
         }
     }
 
+    /*********** PARCELABLE ************/
+
+    protected UnaPersona(Parcel in) {
+        name = in.readString();
+        surename = in.readString();
+        age = in.readString();
+        phone = in.readString();
+        hasDrivingLicense = in.readByte() != 0;
+        englishLevel = in.readString();
+    }
+
+    public static final Creator<UnaPersona> CREATOR = new Creator<UnaPersona>() {
+        @Override
+        public UnaPersona createFromParcel(Parcel in) {
+            return new UnaPersona(in);
+        }
+
+        @Override
+        public UnaPersona[] newArray(int size) {
+            return new UnaPersona[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(surename);
+        dest.writeString(age);
+        dest.writeString(phone);
+        dest.writeByte((byte) (hasDrivingLicense ? 1 : 0));
+        dest.writeString(englishLevel);
+    }
+
+    /*********** PARCELABLE ************/
 }

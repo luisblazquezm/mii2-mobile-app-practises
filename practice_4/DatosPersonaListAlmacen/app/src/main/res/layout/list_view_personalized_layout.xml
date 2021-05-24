@@ -1,6 +1,7 @@
 <LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+
     android:layout_width="match_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="4dip" >
 
@@ -32,78 +33,161 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_gravity="start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <TextView
-                android:id="@+id/labelItemAge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:text="@string/list_view_item_age_text"
-                android:textSize="13sp">
-            </TextView>
 
-            <TextView
-                android:id="@+id/listItemAge"
+            <LinearLayout
+                android:layout_gravity="start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="3sp"
-                android:textSize="13sp">
-            </TextView>
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/labelItemDrivingLicense"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:text="@string/list_view_item_pc_text"
-                android:textSize="13sp">
-            </TextView>
+                <LinearLayout
+                    android:layout_gravity="start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="4dp">
 
-            <TextView
-                android:id="@+id/listItemDrivingLicense"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="3sp"
-                android:textSize="13sp">
-            </TextView>
+                    <TextView
+                        android:id="@+id/labelItemAge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="@string/list_view_item_age_text"
+                        android:textSize="13sp"
+                        >
+                    </TextView>
 
-            <TextView
-                android:id="@+id/labelItemEnglishLevel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:text="@string/list_view_item_english_level_text"
-                android:textSize="13sp">
-            </TextView>
+                    <TextView
+                        android:id="@+id/listItemAge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="3sp"
+                        android:textSize="13sp">
+                    </TextView>
 
-            <TextView
-                android:id="@+id/listItemEnglishLevel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="3sp"
-                android:textSize="13sp">
-            </TextView>
+                </LinearLayout>
 
-            <TextView
-                android:id="@+id/labelItemRegistryDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:text="@string/list_view_item_date_text"
-                android:textSize="13sp">
-            </TextView>
+                <LinearLayout
+                    android:layout_gravity="start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="4dp">
 
-            <TextView
-                android:id="@+id/listItemDate"
+                    <TextView
+                        android:id="@+id/labelItemDrivingLicense"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="@string/list_view_item_pc_text"
+                        android:textSize="13sp">
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/listItemDrivingLicense"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="3sp"
+                        android:textSize="13sp">
+                    </TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_gravity="start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="4dp">
+
+                    <TextView
+                        android:id="@+id/labelItemRegistryDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="@string/list_view_item_date_text"
+                        android:textSize="13sp">
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/listItemDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp">
+                    </TextView>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_gravity="start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="13sp">
-            </TextView>
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_gravity="start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="4dp">
+
+                    <TextView
+                        android:id="@+id/labelItemEnglishLevel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="@string/list_view_item_english_level_text"
+                        android:textSize="13sp">
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/listItemEnglishLevel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="3sp"
+                        android:textSize="13sp">
+                    </TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_gravity="start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="4dp">
+
+                    <TextView
+                        android:id="@+id/labelItemPhone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="@string/list_view_item_phone_text"
+                        android:textSize="13sp">
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/listItemPhone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="3sp"
+                        android:textSize="13sp">
+                    </TextView>
+                </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout >

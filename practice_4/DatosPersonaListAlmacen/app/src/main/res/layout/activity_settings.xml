@@ -21,7 +21,7 @@
             android:text="@string/activity_settings_view_data_format_text" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:orientation="horizontal">
@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:layout_weight="1"
+                android:layout_weight="0.2"
                 android:orientation="vertical">
 
                 <RadioGroup
@@ -68,18 +68,17 @@
 
                 <TextView
                     android:id="@+id/urlTextView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.05"
+                    android:layout_weight="3"
                     android:text="@string/activity_settings_view_url_text" />
 
-                <TextView
-                    android:id="@+id/dateTextView"
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/urlEditText"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text=""
-                    android:gravity="right"/>
+                    android:inputType="textPersonName"
+                    android:layout_weight="1"/>
 
             </LinearLayout>
 
@@ -169,13 +168,6 @@
                     android:layout_weight="1"
                     android:text="@string/activity_settings_view_async_tasks_type_text"
                     android:checked="true"/>
-
-                <RadioButton
-                    android:id="@+id/advertisementRadioButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/activity_settings_view_advertisement_type_text" />
 
             </RadioGroup>
 

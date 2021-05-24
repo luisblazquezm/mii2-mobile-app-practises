@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class AdapterPerson extends ArrayAdapter<UnaPersona> {
 
-    private final ArrayList<UnaPersona> peopleList;
+    private ArrayList<UnaPersona> peopleList;
     private SharedPreferences sharedSettings;
 
     public AdapterPerson(Context context, ArrayList<UnaPersona> peopleList) {
@@ -56,23 +56,56 @@ public class AdapterPerson extends ArrayAdapter<UnaPersona> {
         TextView tvAge = (TextView) rowView.findViewById(R.id.listItemAge);
         TextView tvDrivingLicense = (TextView) rowView.findViewById(R.id.listItemDrivingLicense);
         TextView tvEnglishLevel = (TextView) rowView.findViewById(R.id.listItemEnglishLevel);
+        TextView tvPhone = (TextView) rowView.findViewById(R.id.listItemPhone);
         TextView tvDate = (TextView) rowView.findViewById(R.id.listItemDate);
+
+        // Get label UI elements
+        TextView ageLabel = (TextView) rowView.findViewById(R.id.labelItemAge);
+        TextView drivingLicenseLabel = (TextView) rowView.findViewById(R.id.labelItemDrivingLicense);
+        TextView englishLevelLabel = (TextView) rowView.findViewById(R.id.labelItemEnglishLevel);
+        TextView phoneLabel = (TextView) rowView.findViewById(R.id.labelItemPhone);
+        TextView registryDateLabel = (TextView) rowView.findViewById(R.id.labelItemRegistryDate);
 
         // Populate the data into the template view using the data object
         tvName.setText(person.getName() + " " + person.getSurename());
         tvAge.setText(person.getAge());
         tvDrivingLicense.setText((person.getHasDrivingLicense() ? R.string.pc_yes : R.string.pc_no));
         tvEnglishLevel.setText(person.getEnglishLevel());
+        tvPhone.setText(person.getPhone());
         tvDate.setText(person.parseFromDateToString(person.getDate()));
 
         // Based on the settings set visibility of the fields
-        tvAge.setVisibility(this.sharedSettings.getBoolean(Constants.AGE_VISUALIZATION_SETTINGS_KEY, true) ? View.VISIBLE : View.GONE);
-        tvDrivingLicense.setVisibility(this.sharedSettings.getBoolean(Constants.DRIVING_LICENSE_VISUALIZATION_SETTINGS_KEY, true) ? View.VISIBLE : View.GONE);
-        tvEnglishLevel.setVisibility(this.sharedSettings.getBoolean(Constants.REGISTRY_DATE_VISUALIZATION_SETTINGS_KEY, true) ? View.VISIBLE : View.GONE);
-        //tvAge.setVisibility(this.sharedSettings.getBoolean(CONSTANTS.PHONE_VISUALIZATION_SETTINGS_KEY, true) ? View.VISIBLE : View.GONE);
-        tvDate.setVisibility(this.sharedSettings.getBoolean(Constants.ENGLISH_LEVEL_VISUALIZATION_SETTINGS_KEY, true) ? View.VISIBLE : View.GONE);
+        /* AGE */
+        boolean isSettingsAgeChecked = this.sharedSettings.getBoolean(Constants.AGE_VISUALIZATION_SETTINGS_KEY, true);
+        tvAge.setVisibility(isSettingsAgeChecked ? View.VISIBLE : View.GONE);
+        ageLabel.setVisibility(isSettingsAgeChecked ? View.VISIBLE : View.GONE);
+
+        /* DRIVING LICENSE */
+        boolean isSettingsDrivingLicenseChecked = this.sharedSettings.getBoolean(Constants.DRIVING_LICENSE_VISUALIZATION_SETTINGS_KEY, true);
+        tvDrivingLicense.setVisibility(isSettingsDrivingLicenseChecked ? View.VISIBLE : View.GONE);
+        drivingLicenseLabel.setVisibility(isSettingsDrivingLicenseChecked ? View.VISIBLE : View.GONE);
+
+        /* ENGLISH LEVEL */
+        boolean isSettingsEnglishLevelChecked = this.sharedSettings.getBoolean(Constants.ENGLISH_LEVEL_VISUALIZATION_SETTINGS_KEY, true);
+        tvEnglishLevel.setVisibility(isSettingsEnglishLevelChecked ? View.VISIBLE : View.GONE);
+        englishLevelLabel.setVisibility(isSettingsEnglishLevelChecked ? View.VISIBLE : View.GONE);
+
+        /* PHONE */
+        boolean isSettingsPhoneChecked = this.sharedSettings.getBoolean(Constants.PHONE_VISUALIZATION_SETTINGS_KEY, true);
+        tvPhone.setVisibility(isSettingsPhoneChecked ? View.VISIBLE : View.GONE);
+        phoneLabel.setVisibility(isSettingsPhoneChecked ? View.VISIBLE : View.GONE);
+
+        /* DATE */
+        boolean isSettingsDateChecked = this.sharedSettings.getBoolean(Constants.REGISTRY_DATE_VISUALIZATION_SETTINGS_KEY, true);
+        tvDate.setVisibility(isSettingsDateChecked ? View.VISIBLE : View.GONE);
+        registryDateLabel.setVisibility(isSettingsDateChecked ? View.VISIBLE : View.GONE);
 
         // Return the completed view to render on screen
         return rowView;
+    }
+
+    public void updateResults(ArrayList<UnaPersona> updatedList) {
+        this.peopleList = updatedList; // Set new updated list
+        notifyDataSetChanged(); // Refresh data
     }
 }

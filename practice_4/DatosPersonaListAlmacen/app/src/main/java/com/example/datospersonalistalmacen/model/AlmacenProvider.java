@@ -16,7 +16,7 @@ import com.example.datospersonalistalmacen.utils.Constants;
 public class AlmacenProvider extends ContentProvider {
 
     // CONSTANTS
-    private final static String AUTHORITY = "com.example.datospersonalistalmacen.model.AlmacenProvider"; /* Content Provider Authority */
+    private final static String AUTHORITY = "net.luisblazquezm"; /* Content Provider Authority */
     public final static Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + Constants.CP_TABLE_NAME); /* URI of the main content */
     private final static String SINGLE_MIME = "vnd.android.cursor.item/vnd." + AUTHORITY + Constants.CP_TABLE_NAME; /* Returns query for just one row*/
     private final static String MULTIPLE_MIME = "vnd.android.cursor.dir/vnd." + AUTHORITY + Constants.CP_TABLE_NAME;/* Returns query for multiple rows*/
@@ -27,12 +27,15 @@ public class AlmacenProvider extends ContentProvider {
     private DatabaseHelper dbManager; // Defines a handle to the Room database
     private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH); // Creates a UriMatcher object.
 
-    public boolean onCreate() {
+    // URI assignation
+    static {
+        uriMatcher.addURI(AUTHORITY, Constants.CP_TABLE_NAME, ALLROWS);
+        uriMatcher.addURI(AUTHORITY, Constants.CP_TABLE_NAME + "/#", SINGLE_ROW);
+    }
 
-        // Initializing db manager
-        this.dbManager = new DatabaseHelper(getContext(), Constants.CP_DATABASE_NAME,
-                                     null, Constants.CP_DATABASE_VERSION);
-        return true;
+    @Override
+    public boolean onCreate() {
+        return false;
     }
 
     @Override
@@ -160,18 +163,18 @@ public class AlmacenProvider extends ContentProvider {
         else
             contentValues = new ContentValues();
 
-        // Verify values
-        boolean valuesCorrectlyFormed = this.checkValues(values);
+        // Verify values. Not necessary because each one has a different id
+        /*boolean valuesCorrectlyFormed = this.checkValues(values);
         if (!valuesCorrectlyFormed)
-            return null;
+            return null;*/
 
         // Insert one record
-        SQLiteDatabase db = dbManager.getWritableDatabase();
+        SQLiteDatabase db = this.dbManager.getWritableDatabase();
         long rowId = db.insert(Constants.CP_TABLE_NAME,null, contentValues);
 
         // Check if insertion was correctly made
         if (rowId > 0) {
-            Uri resultingUserURI = ContentUris.withAppendedId(AlmacenProvider.CONTENT_URI, rowId);
+            Uri resultingUserURI = ContentUris.withAppendedId(this.CONTENT_URI, rowId);
             getContext().getContentResolver().notifyChange(resultingUserURI, null); // Notify change to context
             return resultingUserURI;
         } else {

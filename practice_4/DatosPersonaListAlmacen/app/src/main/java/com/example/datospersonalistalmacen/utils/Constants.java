@@ -13,6 +13,7 @@ public interface Constants {
     // ----------------- INTENT REQUEST CODES
     int LAUNCH_SECOND_ACTIVITY_TO_ADD = 1;
     int LAUNCH_SECOND_ACTIVITY_TO_MODIFY = 2;
+
     enum FILE_CODES {
         FAILURE,
         SUCCESS,
@@ -76,6 +77,27 @@ public interface Constants {
 
     // Other
     String SHARED_SETTINGS_KEY = "SHARED_SETTINGS";
+
+    String AGENDA_URL_KEY = "agenda";
+    String JSON_URL_NAME_PARAMETER = "nombre";
+    String JSON_URL_SURENAMES_PARAMETER = "apellidos";
+    String JSON_URL_PHONE_PARAMETER = "tfno";
+    String JSON_URL_DRIVING_LICENSE_PARAMETER = "conduce";
+    String JSON_URL_ENGLISH_LEVEL_PARAMETER = "ingles";
+    String JSON_URL_REGISTRY_DATE_PARAMETER = "registro";
+
+    String PERSONA_URL_KEY = "persona";
+    String XML_URL_NAME_PARAMETER = "nombre";
+    String XML_URL_SURENAMES_PARAMETER = "apellidos";
+    String XML_URL_PHONE_PARAMETER = "telefono";
+    String XML_URL_DRIVING_LICENSE_PARAMETER = "conduce";
+    String XML_URL_ENGLISH_LEVEL_PARAMETER = "nivel_ingles";
+    String XML_URL_REGISTRY_DATE_PARAMETER = "datereg";
+
+    String HIGH_LEVEL_VALUE = "ALTO";
+    String MEDIUM_LEVEL_VALUE = "MEDIO";
+    String LOW_LEVEL_VALUE = "BAJO";
+
 }
 
 

@@ -8,7 +8,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.DatosPersonaListCarga">
+        android:theme="@style/Theme.DatosPersonaListCarga"
+        android:requestLegacyExternalStorage="true"
+        android:usesCleartextTraffic="true">
         <activity android:name=".SettingsActivity"></activity>
         <activity android:name=".DatosListActivity" />
         <activity
@@ -23,10 +25,11 @@
         <activity android:name=".LanzaActividad" />
         <provider
             android:name=".model.AlmacenProvider"
-            android:authorities="com.example.datospersonalistalmacen.model.AlmacenProvider"
-            android:exported="false" />
+            android:authorities="net.luisblazquezm"/>
     </application>
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -13,6 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.datospersonalistalmacen.utils.Constants;
+import com.example.datospersonalistalmacen.utils.Utils;
 
 import java.util.Calendar;
 
@@ -38,14 +40,21 @@ public class LanzaActividad extends Activity {
 
         // recovering the instance state
         if (savedInstanceState != null) {
+            this.newPerson = new UnaPersona();
+
             this.newPerson.setName(savedInstanceState.getString(Constants.NAME_STATE_KEY));
             this.newPerson.setSurename(savedInstanceState.getString(Constants.SURENAMES_STATE_KEY));
             this.newPerson.setAge(savedInstanceState.getString(Constants.AGE_STATE_KEY));
             this.newPerson.setPhone(savedInstanceState.getString(Constants.PHONE_STATE_KEY));
             this.newPerson.setHasDrivingLicense(savedInstanceState.getBoolean(Constants.DRIVING_LICENSE_STATE_KEY));
 
-            RadioButton rb = (RadioButton) findViewById(savedInstanceState.getInt(Constants.ENGLISH_LEVEL_STATE_KEY));
-            String radioText = rb.getText().toString();
+            RadioButton rb = null;
+            String radioText = Constants.HIGH_LEVEL_VALUE;
+            if (null != findViewById(savedInstanceState.getInt(Constants.ENGLISH_LEVEL_STATE_KEY))) {
+                rb = (RadioButton) findViewById(savedInstanceState.getInt(Constants.ENGLISH_LEVEL_STATE_KEY));
+                if (null != rb)
+                    radioText = rb.getText().toString();
+            }
             this.newPerson.setEnglishLevel(radioText);
 
             this.newPerson.setDate(this.newPerson.parseFromStringToDate(savedInstanceState.getString(Constants.DATE_STATE_KEY)));
@@ -68,10 +77,10 @@ public class LanzaActividad extends Activity {
             this.requestCode = intentExtraParameters.getInt(Constants.INTENT_REQUEST_CODE_KEY);
 
             if (Constants.LAUNCH_SECOND_ACTIVITY_TO_MODIFY == this.requestCode) { // To modify
-                UnaPersona personToModify = (UnaPersona) getIntent().getSerializableExtra(Constants.INTENT_ELEMENT_DATA_TO_MODIFY_KEY);
+                UnaPersona personToModify = (UnaPersona) getIntent().getParcelableExtra(Constants.INTENT_ELEMENT_DATA_TO_MODIFY_KEY);
                 this.setValuesIntoFields(personToModify); // set values to modify
             } else if (Constants.LAUNCH_SECOND_ACTIVITY_TO_ADD == this.requestCode) { // To add new data
-                this.dateString = this.getCurrenDate(); // initialize person attributes
+                this.dateString = Utils.getCurrenDate(); // initialize person attributes
                 this.dateTextView.setText(this.dateString); // set current date in initialization
             }
         }
@@ -79,6 +88,8 @@ public class LanzaActividad extends Activity {
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
         this.nameEditText.setText(savedInstanceState.getString(Constants.NAME_STATE_KEY));
         this.surenamesEditText.setText(savedInstanceState.getString(Constants.SURENAMES_STATE_KEY));
         this.ageEditText.setText(savedInstanceState.getString(Constants.AGE_STATE_KEY));
@@ -97,9 +108,10 @@ public class LanzaActividad extends Activity {
         outState.putString(Constants.PHONE_STATE_KEY, this.phoneEditText.getText().toString());
         outState.putBoolean(Constants.DRIVING_LICENSE_STATE_KEY, this.drivingLicenseCheckbox.isChecked());
 
-        int selectedEnglishLevelButtonId = this.englishLevelRadioGroup.getCheckedRadioButtonId();
+        /*int selectedEnglishLevelButtonId = this.englishLevelRadioGroup.getCheckedRadioButtonId();
         RadioButton selectedEnglishLevelRadioButton = (RadioButton) findViewById(selectedEnglishLevelButtonId);
-        outState.putString(Constants.ENGLISH_LEVEL_STATE_KEY, selectedEnglishLevelRadioButton.getText().toString());
+        outState.putString(Constants.ENGLISH_LEVEL_STATE_KEY, selectedEnglishLevelRadioButton.getText().toString());*/
+        outState.putInt(Constants.ENGLISH_LEVEL_STATE_KEY, this.englishLevelRadioGroup.getCheckedRadioButtonId());
 
         outState.putString(Constants.DATE_STATE_KEY, this.dateTextView.getText().toString());
 
@@ -138,16 +150,6 @@ public class LanzaActividad extends Activity {
         }
         // Set current date
         this.dateTextView.setText(p.getStringDate());
-    }
-
-    private String getCurrenDate() {
-        // Get current date
-        final Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-
-        return day + "/" + month + "/" + year;
     }
 
     public void changeDate(View view) {
@@ -248,7 +250,7 @@ public class LanzaActividad extends Activity {
         this.englishLevelRadioGroup.clearCheck();
         this.englishLevelRadioGroup.check(R.id.lowLevelRadioButton);
         // Set current date
-        this.dateTextView.setText(this.getCurrenDate());
+        this.dateTextView.setText(Utils.getCurrenDate());
     }
 
     public void cancel(View view) {

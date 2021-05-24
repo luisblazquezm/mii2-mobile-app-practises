@@ -71,13 +71,14 @@
             android:text="@string/main_view_add_person_button_text" />
 
         <Button
-            android:id="@+id/startProgramButton"
+            android:id="@+id/saveDataButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="80dp"
-            android:layout_marginRight="80dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:onClick="storePersonData"
+            android:visibility="gone"
             android:text="@string/main_view_store_person_data_button_text" />
 
         <Button
