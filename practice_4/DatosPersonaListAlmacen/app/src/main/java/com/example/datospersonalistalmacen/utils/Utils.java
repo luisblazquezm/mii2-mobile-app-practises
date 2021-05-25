@@ -5,7 +5,8 @@ import android.os.Environment;
 import android.util.Log;
 import android.util.Xml;
 
-import com.example.datospersonalistalmacen.UnaPersona;
+import com.example.datospersonalistalmacen.constants.Constants;
+import com.example.datospersonalistalmacen.constants.IOConstants;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -109,7 +110,7 @@ public class Utils {
 
         // Check if filename is json type
         if (!filename.toLowerCase().endsWith(".json") && !filename.toLowerCase().endsWith(".xml"))
-            return Constants.FILE_CODES.INCORRECT_FILENAME.ordinal();
+            return IOConstants.FILE_CODES.INCORRECT_FILENAME.ordinal();
 
         File directory = cw.getExternalFilesDir(Environment.getExternalStorageDirectory().getAbsolutePath());
 
@@ -127,13 +128,13 @@ public class Utils {
             fos.close();
         } catch (FileNotFoundException e) {
             Log.e("e", "File not found error: " + e.toString());
-            return Constants.FILE_CODES.FAILURE.ordinal();
+            return IOConstants.FILE_CODES.FAILURE.ordinal();
         } catch (IOException e) {
             Log.e("e", "IO error: " + e.toString());
-            return Constants.FILE_CODES.IO_FAILURE.ordinal();
+            return IOConstants.FILE_CODES.IO_FAILURE.ordinal();
         }
 
-        return Constants.FILE_CODES.SUCCESS.ordinal();
+        return IOConstants.FILE_CODES.SUCCESS.ordinal();
     }
 
     public static JSONObject extractXMLFromURL(URL url) {
@@ -149,7 +150,7 @@ public class Utils {
             doc.getDocumentElement().normalize();
 
             // Get node list
-            NodeList nodeList = doc.getElementsByTagName(Constants.PERSONA_URL_KEY);
+            NodeList nodeList = doc.getElementsByTagName(IOConstants.PERSONA_URL_KEY);
 
             // Iterate over XML and get attributes and values
             for (int i = 0; i < nodeList.getLength(); i++) {
@@ -160,40 +161,40 @@ public class Utils {
                 Element element = (Element) node;
 
                 // Get name
-                NodeList nameList = element.getElementsByTagName(Constants.XML_URL_NAME_PARAMETER);
+                NodeList nameList = element.getElementsByTagName(IOConstants.XML_URL_NAME_PARAMETER);
                 Element nameElement = (Element) nameList.item(0);
                 nameList = nameElement.getChildNodes();
-                j.put(Constants.JSON_URL_NAME_PARAMETER, ((Node) nameList.item(0)).getNodeValue());
+                j.put(IOConstants.JSON_URL_NAME_PARAMETER, ((Node) nameList.item(0)).getNodeValue());
 
                 // Get surename
-                nameList = element.getElementsByTagName(Constants.XML_URL_SURENAMES_PARAMETER);
+                nameList = element.getElementsByTagName(IOConstants.XML_URL_SURENAMES_PARAMETER);
                 nameElement = (Element) nameList.item(0);
                 nameList = nameElement.getChildNodes();
-                j.put(Constants.JSON_URL_SURENAMES_PARAMETER, ((Node) nameList.item(0)).getNodeValue());
+                j.put(IOConstants.JSON_URL_SURENAMES_PARAMETER, ((Node) nameList.item(0)).getNodeValue());
 
                 // Get phone
-                nameList = element.getElementsByTagName(Constants.XML_URL_PHONE_PARAMETER);
+                nameList = element.getElementsByTagName(IOConstants.XML_URL_PHONE_PARAMETER);
                 nameElement = (Element) nameList.item(0);
                 nameList = nameElement.getChildNodes();
-                j.put(Constants.JSON_URL_PHONE_PARAMETER, ((Node) nameList.item(0)).getNodeValue());
+                j.put(IOConstants.JSON_URL_PHONE_PARAMETER, ((Node) nameList.item(0)).getNodeValue());
 
                 // Get driving license
-                nameList = element.getElementsByTagName(Constants.XML_URL_DRIVING_LICENSE_PARAMETER);
+                nameList = element.getElementsByTagName(IOConstants.XML_URL_DRIVING_LICENSE_PARAMETER);
                 nameElement = (Element) nameList.item(0);
                 nameList = nameElement.getChildNodes();
-                j.put(Constants.JSON_URL_DRIVING_LICENSE_PARAMETER, ((Node) nameList.item(0)).getNodeValue());
+                j.put(IOConstants.JSON_URL_DRIVING_LICENSE_PARAMETER, ((Node) nameList.item(0)).getNodeValue());
 
                 // Get english level
-                nameList = element.getElementsByTagName(Constants.XML_URL_ENGLISH_LEVEL_PARAMETER);
+                nameList = element.getElementsByTagName(IOConstants.XML_URL_ENGLISH_LEVEL_PARAMETER);
                 nameElement = (Element) nameList.item(0);
                 nameList = nameElement.getChildNodes();
-                j.put(Constants.JSON_URL_ENGLISH_LEVEL_PARAMETER, ((Node) nameList.item(0)).getNodeValue());
+                j.put(IOConstants.JSON_URL_ENGLISH_LEVEL_PARAMETER, ((Node) nameList.item(0)).getNodeValue());
 
                 // Get registry date
-                nameList = element.getElementsByTagName(Constants.XML_URL_REGISTRY_DATE_PARAMETER);
+                nameList = element.getElementsByTagName(IOConstants.XML_URL_REGISTRY_DATE_PARAMETER);
                 nameElement = (Element) nameList.item(0);
                 nameList = nameElement.getChildNodes();
-                j.put(Constants.JSON_URL_REGISTRY_DATE_PARAMETER, ((Node) nameList.item(0)).getNodeValue());
+                j.put(IOConstants.JSON_URL_REGISTRY_DATE_PARAMETER, ((Node) nameList.item(0)).getNodeValue());
 
                 // Add to json array
                 jsonUsersArray.put(j);
@@ -201,7 +202,7 @@ public class Utils {
 
             // Return agenda
             JSONObject agenda = new JSONObject();
-            agenda.put(Constants.AGENDA_URL_KEY, jsonUsersArray);
+            agenda.put(IOConstants.AGENDA_URL_KEY, jsonUsersArray);
 
             return agenda;
         } catch (ParserConfigurationException | IOException | SAXException | JSONException e) {

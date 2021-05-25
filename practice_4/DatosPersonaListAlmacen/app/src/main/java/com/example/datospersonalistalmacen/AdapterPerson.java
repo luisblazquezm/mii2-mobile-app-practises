@@ -8,7 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.datospersonalistalmacen.utils.Constants;
+import com.example.datospersonalistalmacen.constants.Constants;
+import com.example.datospersonalistalmacen.constants.SettingsConstants;
 
 import java.util.ArrayList;
 
@@ -22,7 +23,7 @@ public class AdapterPerson extends ArrayAdapter<UnaPersona> {
         this.peopleList = peopleList;
 
         // Get settings for all the app
-        this.sharedSettings = context.getSharedPreferences(Constants.SHARED_SETTINGS_KEY, Context.MODE_PRIVATE);
+        this.sharedSettings = context.getSharedPreferences(SettingsConstants.SHARED_SETTINGS_KEY, Context.MODE_PRIVATE);
     }
 
     @Override
@@ -76,27 +77,27 @@ public class AdapterPerson extends ArrayAdapter<UnaPersona> {
 
         // Based on the settings set visibility of the fields
         /* AGE */
-        boolean isSettingsAgeChecked = this.sharedSettings.getBoolean(Constants.AGE_VISUALIZATION_SETTINGS_KEY, true);
+        boolean isSettingsAgeChecked = this.sharedSettings.getBoolean(SettingsConstants.AGE_VISUALIZATION_SETTINGS_KEY, true);
         tvAge.setVisibility(isSettingsAgeChecked ? View.VISIBLE : View.GONE);
         ageLabel.setVisibility(isSettingsAgeChecked ? View.VISIBLE : View.GONE);
 
         /* DRIVING LICENSE */
-        boolean isSettingsDrivingLicenseChecked = this.sharedSettings.getBoolean(Constants.DRIVING_LICENSE_VISUALIZATION_SETTINGS_KEY, true);
+        boolean isSettingsDrivingLicenseChecked = this.sharedSettings.getBoolean(SettingsConstants.DRIVING_LICENSE_VISUALIZATION_SETTINGS_KEY, true);
         tvDrivingLicense.setVisibility(isSettingsDrivingLicenseChecked ? View.VISIBLE : View.GONE);
         drivingLicenseLabel.setVisibility(isSettingsDrivingLicenseChecked ? View.VISIBLE : View.GONE);
 
         /* ENGLISH LEVEL */
-        boolean isSettingsEnglishLevelChecked = this.sharedSettings.getBoolean(Constants.ENGLISH_LEVEL_VISUALIZATION_SETTINGS_KEY, true);
+        boolean isSettingsEnglishLevelChecked = this.sharedSettings.getBoolean(SettingsConstants.ENGLISH_LEVEL_VISUALIZATION_SETTINGS_KEY, true);
         tvEnglishLevel.setVisibility(isSettingsEnglishLevelChecked ? View.VISIBLE : View.GONE);
         englishLevelLabel.setVisibility(isSettingsEnglishLevelChecked ? View.VISIBLE : View.GONE);
 
         /* PHONE */
-        boolean isSettingsPhoneChecked = this.sharedSettings.getBoolean(Constants.PHONE_VISUALIZATION_SETTINGS_KEY, true);
+        boolean isSettingsPhoneChecked = this.sharedSettings.getBoolean(SettingsConstants.PHONE_VISUALIZATION_SETTINGS_KEY, true);
         tvPhone.setVisibility(isSettingsPhoneChecked ? View.VISIBLE : View.GONE);
         phoneLabel.setVisibility(isSettingsPhoneChecked ? View.VISIBLE : View.GONE);
 
         /* DATE */
-        boolean isSettingsDateChecked = this.sharedSettings.getBoolean(Constants.REGISTRY_DATE_VISUALIZATION_SETTINGS_KEY, true);
+        boolean isSettingsDateChecked = this.sharedSettings.getBoolean(SettingsConstants.REGISTRY_DATE_VISUALIZATION_SETTINGS_KEY, true);
         tvDate.setVisibility(isSettingsDateChecked ? View.VISIBLE : View.GONE);
         registryDateLabel.setVisibility(isSettingsDateChecked ? View.VISIBLE : View.GONE);
 

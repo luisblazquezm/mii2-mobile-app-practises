@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -13,7 +12,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.example.datospersonalistalmacen.utils.Constants;
+import com.example.datospersonalistalmacen.constants.Constants;
 import com.example.datospersonalistalmacen.utils.Utils;
 
 import java.util.Calendar;

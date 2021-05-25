@@ -17,12 +17,11 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.datospersonalistalmacen.constants.IOConstants;
+import com.example.datospersonalistalmacen.constants.SettingsConstants;
 import com.example.datospersonalistalmacen.model.Almacen;
-import com.example.datospersonalistalmacen.utils.Constants;
+import com.example.datospersonalistalmacen.constants.Constants;
 import com.example.datospersonalistalmacen.utils.Utils;
-
-import java.io.Serializable;
-import java.util.ArrayList;
 
 public class DatosListActivity extends Activity {
 
@@ -48,10 +47,10 @@ public class DatosListActivity extends Activity {
         setContentView(R.layout.activity_datos_list);
 
         // Initialize storage
-        this.userStorage = new Almacen();
+        this.userStorage = new Almacen(this);
 
         // Get reference to shared settings
-        this.sharedSettings = DatosListActivity.this.getSharedPreferences(Constants.SHARED_SETTINGS_KEY, Context.MODE_PRIVATE);
+        this.sharedSettings = DatosListActivity.this.getSharedPreferences(SettingsConstants.SHARED_SETTINGS_KEY, Context.MODE_PRIVATE);
 
         // check if there is data from previous session
 
@@ -91,7 +90,7 @@ public class DatosListActivity extends Activity {
             public void run() {
 
                 // Get content
-                String URL = DatosListActivity.this.sharedSettings.getString(Constants.URL_SETTINGS_KEY, "");
+                String URL = DatosListActivity.this.sharedSettings.getString(SettingsConstants.URL_SETTINGS_KEY, "");
                 if (URL.isEmpty() || URL == "")
                     DatosListActivity.this.userStorage.initializeStaticStorage(); // Load data from static
                 else
@@ -204,12 +203,40 @@ public class DatosListActivity extends Activity {
     }
 
     public void storePersonData(View view) {
-        String content = null, filename = null;
 
         Log.d("d", "Storing data person data");
 
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        //Yes button clicked
+                        DatosListActivity.this.applyStorage();
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+
+
+        };
+
+        // Set dialog for yes or no appliance of storage
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getResources().getString(R.string.main_view_delete_dialog_save_storage_text))
+                .setPositiveButton(getResources().getString(R.string.pc_yes), dialogClickListener)
+                .setNegativeButton(getResources().getString(R.string.pc_no), dialogClickListener).show();
+
+    }
+
+    private void applyStorage() {
+        String content = null, filename = null;
+
         /* CHOOSE STORAGE TYPE */
-        int storageTypeIdSelected = this.sharedSettings.getInt(Constants.STORAGE_TYPE_SETTINGS_KEY, R.id.contentProviderRadioButton);
+        int storageTypeIdSelected = this.sharedSettings.getInt(SettingsConstants.STORAGE_TYPE_SETTINGS_KEY, R.id.contentProviderRadioButton);
         if (R.id.contentProviderRadioButton == storageTypeIdSelected){
             Log.d("d", "CONTENT PROVIDER---------------------");
             userStorage.bulkDataToContentProvider(); // Bulk all the records of the list into database with content provider
@@ -217,12 +244,12 @@ public class DatosListActivity extends Activity {
             Log.d("d", "EXTERNAL MEMORY---------------------");
 
             /* CHOOSE FORMAT TYPE */
-            int formatTypeIdSelected = this.sharedSettings.getInt(Constants.FORMAT_SETTINGS_KEY, R.id.xmlFormatRadioButton);
+            int formatTypeIdSelected = this.sharedSettings.getInt(SettingsConstants.FORMAT_SETTINGS_KEY, R.id.xmlFormatRadioButton);
             if (R.id.xmlFormatRadioButton == formatTypeIdSelected) { // XML format selected in settings
-                filename = Constants.DEFAULT_OUTPUT_XML_FILENAME;
+                filename = IOConstants.DEFAULT_OUTPUT_XML_FILENAME;
                 content = Utils.multipleItemsToXML(this.userStorage.getList()); // Parse to JSON object string
             } else if (R.id.jsonFormatRadioButton == formatTypeIdSelected){ // JSON format selected in settings
-                filename = Constants.DEFAULT_OUTPUT_JSON_FILENAME;
+                filename = IOConstants.DEFAULT_OUTPUT_JSON_FILENAME;
                 content = Utils.toJSON(this.userStorage.getList()); // Parse to JSON object string
             }
 

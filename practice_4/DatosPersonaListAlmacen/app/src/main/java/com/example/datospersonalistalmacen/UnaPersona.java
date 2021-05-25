@@ -3,14 +3,13 @@ package com.example.datospersonalistalmacen;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.example.datospersonalistalmacen.utils.Constants;
+import com.example.datospersonalistalmacen.constants.Constants;
+import com.example.datospersonalistalmacen.constants.IOConstants;
 import com.example.datospersonalistalmacen.utils.Utils;
-import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,31 +38,31 @@ public class UnaPersona implements Parcelable {
 
     public UnaPersona(JSONObject objectFromURL) {
         try {
-            this.name = objectFromURL.getString(Constants.JSON_URL_NAME_PARAMETER);
+            this.name = objectFromURL.getString(IOConstants.JSON_URL_NAME_PARAMETER);
         } catch (JSONException e) {
             this.name = Constants.UNKNOWN_DEFAULT_VALUE;
         }
 
         try {
-            this.surename = objectFromURL.getString(Constants.JSON_URL_SURENAMES_PARAMETER);
+            this.surename = objectFromURL.getString(IOConstants.JSON_URL_SURENAMES_PARAMETER);
         } catch (JSONException e) {
             this.surename = Constants.UNKNOWN_DEFAULT_VALUE;
         }
 
         try {
-            this.phone = objectFromURL.getString(Constants.JSON_URL_PHONE_PARAMETER);
+            this.phone = objectFromURL.getString(IOConstants.JSON_URL_PHONE_PARAMETER);
         } catch (JSONException e) {
             this.phone = Constants.UNKNOWN_DEFAULT_VALUE;
         }
 
         try {
-            this.hasDrivingLicense = (objectFromURL.getString(Constants.JSON_URL_DRIVING_LICENSE_PARAMETER) == "S") ? true : false;
+            this.hasDrivingLicense = (objectFromURL.getString(IOConstants.JSON_URL_DRIVING_LICENSE_PARAMETER) == "S") ? true : false;
         } catch (JSONException e) {
             this.hasDrivingLicense = false;
         }
 
         try {
-            switch (objectFromURL.getString(Constants.JSON_URL_ENGLISH_LEVEL_PARAMETER)){
+            switch (objectFromURL.getString(IOConstants.JSON_URL_ENGLISH_LEVEL_PARAMETER)){
                 case "H":
                     this.englishLevel = Constants.HIGH_LEVEL_VALUE;
                     break;
@@ -82,7 +81,7 @@ public class UnaPersona implements Parcelable {
         }
 
         try {
-            this.date = this.parseFromStringToDate(objectFromURL.getString(Constants.JSON_URL_REGISTRY_DATE_PARAMETER));
+            this.date = this.parseFromStringToDate(objectFromURL.getString(IOConstants.JSON_URL_REGISTRY_DATE_PARAMETER));
         } catch (JSONException e) {
             this.date = null;
         }

@@ -1,56 +1,35 @@
 package com.example.datospersonalistalmacen.model;
 
 import android.content.ContentValues;
-import android.net.Uri;
-import android.os.Environment;
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
 import com.example.datospersonalistalmacen.UnaPersona;
-import com.example.datospersonalistalmacen.utils.Constants;
+import com.example.datospersonalistalmacen.constants.Constants;
+import com.example.datospersonalistalmacen.constants.DBConstants;
+import com.example.datospersonalistalmacen.constants.IOConstants;
 import com.example.datospersonalistalmacen.utils.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 public class Almacen implements Parcelable {
 
     private ArrayList<UnaPersona> peopleList = null;
     private AlmacenProvider contentProviderManager = null;
 
-    public Almacen() {
+    public Almacen(Context context) {
 
         // Set variables
         this.peopleList = new ArrayList<UnaPersona>();
-        this.contentProviderManager = new AlmacenProvider();
+        this.contentProviderManager = new AlmacenProvider(context, this.getList());
     }
 
     public void initializeStaticStorage() {
@@ -82,7 +61,7 @@ public class Almacen implements Parcelable {
                     Log.d("d", "resultJSON JSON: " + resultJSON.toString());
 
                     // Get users from JSON content
-                    users = resultJSON.getJSONArray(Constants.AGENDA_URL_KEY);
+                    users = resultJSON.getJSONArray(IOConstants.AGENDA_URL_KEY);
                 }
             } else if (contentURL.endsWith(".xml")) {
                 // Retrieve from URL as JSON (XML is parsed to JSON because it is an structure
@@ -95,7 +74,7 @@ public class Almacen implements Parcelable {
                     Log.d("d", "resultJSON XML: " + resultJSON.toString());
 
                     // Get users from XML content as JSON
-                    users = resultJSON.getJSONArray(Constants.AGENDA_URL_KEY);
+                    users = resultJSON.getJSONArray(IOConstants.AGENDA_URL_KEY);
                 }
             }
 
@@ -143,13 +122,13 @@ public class Almacen implements Parcelable {
 
             // Insert bulk all the record
             ContentValues values = new ContentValues();
-            values.put(Constants.NAME_COLUMN, p.getName());
-            values.put(Constants.SURENNAMES_COLUMN, p.getSurename());
-            values.put(Constants.AGE_COLUMN, p.getAge());
-            values.put(Constants.PHONE_COLUMN, p.getPhone());
-            values.put(Constants.DRIVING_LICENSE_COLUMN, String.valueOf(p.getHasDrivingLicense()));
-            values.put(Constants.ENGLISH_LEVEL_COLUMN, p.getEnglishLevel());
-            values.put(Constants.DATE_COLUMN, p.getStringDate());
+            values.put(DBConstants.NAME_COLUMN, p.getName());
+            values.put(DBConstants.SURENNAMES_COLUMN, p.getSurename());
+            values.put(DBConstants.AGE_COLUMN, p.getAge());
+            values.put(DBConstants.PHONE_COLUMN, p.getPhone());
+            values.put(DBConstants.DRIVING_LICENSE_COLUMN, String.valueOf(p.getHasDrivingLicense()));
+            values.put(DBConstants.ENGLISH_LEVEL_COLUMN, p.getEnglishLevel());
+            values.put(DBConstants.DATE_COLUMN, p.getStringDate());
             contentProviderManager.insert(contentProviderManager.CONTENT_URI, values);
         }
 

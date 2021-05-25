@@ -50,6 +50,7 @@
     <string name="activity_settings_view_advertisement_type_text">Anuncio</string>
     <string name="activity_settings_view_save_settings_button_text">GUARDAR PREFERENCIAS</string>
     <string name="activity_settings_view_cancel_settings_button_text">CANCELAR PREFERENCIAS</string>
-    <string name="activity_settings_view_visible_fields_text">Visible Fields</string>
-    <string name="list_view_item_phone_text">Phone</string>
+    <string name="activity_settings_view_visible_fields_text">Campos visibles</string>
+    <string name="list_view_item_phone_text">Teléfono</string>
+    <string name="main_view_delete_dialog_save_storage_text">Está a punto de permitir la escritura en su propio dispositio. ¿Desea continuar con el almacenamiento de los datos?</string>
 </resources>
