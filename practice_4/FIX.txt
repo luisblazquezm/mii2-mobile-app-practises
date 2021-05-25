@@ -1,4 +1,2 @@
-- Problema con la BD SQLite
 - Arreglar vistas al girar dispositivo
 - No coge bien la fecha de los JSON y XML y fuerzo a poner por defecto la de hoy
-- Dividir constantes en varios ficheros -> Constants, DBConstants, InternetConstants, SettingsConstants

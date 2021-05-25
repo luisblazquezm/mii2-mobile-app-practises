@@ -49,6 +49,7 @@ public class SettingsActivity extends Activity {
         this.sharedSettings = SettingsActivity.this.getSharedPreferences(SettingsConstants.SHARED_SETTINGS_KEY, Context.MODE_PRIVATE);
 
         // Set settings
+        // NOT NECESSARY TO KEEP ONSAVEINSTANCE BECAUSE IT GETS THE VALUES FROM SHARED SETTINGS
         this.setInitSettingsValues();
     }
 
