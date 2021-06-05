@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Mascotas</string>
+    <string name="vaccinated_label_text">Vacunado</string>
+    <string name="not_vaccinated_label_text">Sin Vacunar</string>
+    <string name="no_connection_text">No hay conexión a Internet</string>
+    <string name="main_activity_start_btn_text">COMENZAR</string>
+    <string name="main_activity_add_pet_btn_text">Añadir mascota</string>
+    <string name="main_activity_list_pets_btn_text">LISTAR MASCOTAS</string>
+    <string name="main_activity_normal_program_label_text">PROGRAMA PRINCIPAL</string>
+    <string name="main_activity_scraper_program_label_text">SCRAPER</string>
+    <string name="main_view_empty_list_view_text">No hay datos disponibles</string>
+    <string name="pet_list_activity_num_processes_label_text">Procesamientos:</string>
+    <string name="pet_list_activity_num_event_label_text">Eventos</string>
+    <string name="pet_list_activity_launch_app_button_text">ARRANCAR</string>
+    <string name="start_service_button_text">ARRANCAR</string>
+    <string name="stop_service_button_text">PARAR</string>
+</resources>
