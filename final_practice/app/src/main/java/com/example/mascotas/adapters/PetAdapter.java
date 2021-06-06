@@ -2,6 +2,7 @@ package com.example.mascotas.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.mascotas.R;
 
+import com.example.mascotas.interfaces.Constants;
 import com.example.mascotas.models.Pet;
 
 import java.util.ArrayList;
@@ -45,11 +47,11 @@ public class PetAdapter extends ArrayAdapter<Pet> {
             return R.drawable.other;
 
         switch(type){
-            case "cat":
+            case Constants.CAT_VALUE:
                 return  R.drawable.cat;
-            case "bird":
+            case Constants.BIRD_VALUE:
                 return  R.drawable.bird;
-            case "dog":
+            case Constants.DOG_VALUE:
                 return  R.drawable.dog;
             default:
                 return  R.drawable.other;

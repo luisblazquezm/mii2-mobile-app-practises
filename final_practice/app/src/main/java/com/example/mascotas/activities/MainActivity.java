@@ -35,16 +35,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void start(View view) {
         Intent intent = new Intent(this, PetListActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 0);
     }
 
     public void addPetFromScraper(View view) {
         Intent intent = new Intent(this, ScraperAddPetActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 0);
     }
 
     public void listPetsFromScraper(View view) {
         Intent intent = new Intent(this, ScraperListPetsActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 0);
     }
 }

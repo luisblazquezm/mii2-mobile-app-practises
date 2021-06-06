@@ -14,9 +14,14 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public class Pet implements Parcelable {
+public class Pet implements Parcelable, Comparable<Pet> {
 
+    // ID GENERATOR
+    private static final AtomicInteger idCounter = new AtomicInteger(0);
+
+    // PROPERTIES
     private int order;
     private String id;
     private String name;
@@ -27,7 +32,7 @@ public class Pet implements Parcelable {
 
     public Pet() {
         this.order = -1;
-        this.id = "";
+        this.id = String.valueOf(idCounter.incrementAndGet());
         this.name = "";
         this.owner = "";
         this.type = "";
@@ -90,9 +95,19 @@ public class Pet implements Parcelable {
         }
     }
 
+    public Pet(String id, String name, String owner, String type, Date date, boolean isVaccinated) {
+        this.order = -1;
+        this.id = id;
+        this.name = name;
+        this.owner = owner;
+        this.type = type;
+        this.date = date;
+        this.isVaccinated = isVaccinated;
+    }
+
     public Pet(String name, String owner, String type, Date date, boolean isVaccinated) {
         this.order = -1;
-        this.id = "";
+        this.id = String.valueOf(idCounter.incrementAndGet());
         this.name = name;
         this.owner = owner;
         this.type = type;
@@ -102,12 +117,11 @@ public class Pet implements Parcelable {
 
     public Pet(String name, String owner, String type, String date, boolean isVaccinated) {
         this.order = -1;
-        this.id = "";
+        this.id = String.valueOf(idCounter.incrementAndGet());
         this.name = name;
         this.owner = owner;
         this.type = type;
         this.date = this.parseFromStringToDate(date);
-
         this.isVaccinated = isVaccinated;
     }
 
@@ -232,4 +246,9 @@ public class Pet implements Parcelable {
     }
 
     /*********** PARCELABLE ************/
+
+    @Override
+    public int compareTo(Pet o) {
+        return -Integer.compare(this.order, o.order);
+    }
 }

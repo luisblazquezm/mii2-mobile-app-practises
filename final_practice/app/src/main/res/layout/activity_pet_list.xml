@@ -53,6 +53,7 @@
                     android:id="@+id/numEventsTextView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:gravity="left"
                     android:layout_weight="1"></TextView>
 
             </LinearLayout>
@@ -67,13 +68,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:gravity="left"
                     android:text="@string/pet_list_activity_num_processes_label_text"></TextView>
 
                 <TextView
                     android:id="@+id/numProcessesTextView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"></TextView>
+                    android:gravity="left"
+                    android:layout_weight="1"></TextView>
 
             </LinearLayout>
 
@@ -103,8 +106,8 @@
             <ListView
                 android:id="@+id/petListView"
                 android:layout_width="fill_parent"
-                android:layout_height="200dp"
                 android:gravity="left"
+                android:layout_height="600dp"
                 android:textSize="13dp"
                 android:scrollbars="horizontal|vertical"/>
 
